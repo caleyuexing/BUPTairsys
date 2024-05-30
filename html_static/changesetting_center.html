@@ -32,10 +32,8 @@
             <div class="wording">
 				<br>
                 <div class="move-logo"></div>
-                <div class="move-title">更改房间空调设置</div>
-                <div class="move-title">101</div>
+                <div class="move-title">空调总机</div>
                 <div class="move-desc">
-
                 </div>
             </div>
         </div>
@@ -61,103 +59,118 @@
     <div class="caley-bg-img">
         <form class="form-horizontal" enctype="multipart/form-data" method="POST">
             <div class="form-group">
+               &nbsp;
+            </div>
+            <div class="form-group">
                 <label for="inputEmail3" class="col-sm-2 control-label">模式</label>
-                &nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <div class="btn-group">
-                    <button type="button" class="btn btn-primary">制冷</button>
-                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="caret"></span>
-                        <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">制冷</a></li>
-                        <li><a href="#">制热</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="inputEmail3" class="col-sm-2 control-label">风速</label>
-                &nbsp;&nbsp;&nbsp;
-                <div class="btn-group">
-                    <button type="button" class="btn btn-success">中风</button>
-                    <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="caret"></span>
-                        <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">低风</a></li>
-                        <li><a href="#">中风</a></li>
-                        <li><a href="#">高风</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="inputEmail3" class="col-sm-2 control-label">温度</label>
-                &nbsp;&nbsp;&nbsp;
-                <div class="btn-group">
-                    <button type="button" class="btn btn-info">25</button>
+                    <button type="button" class="btn btn-info" id="modeButton">制冷</button>
                     <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="caret"></span>
                         <span class="sr-only">Toggle Dropdown</span>
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a href="#">低风</a></li>
-                        <li><a href="#">中风</a></li>
-                        <li><a href="#">高风</a></li>
+                        <li><a href="#" class="mode-option">制冷</a></li>
+                        <li><a href="#" class="mode-option">制热</a></li>
                     </ul>
                 </div>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                当前设定模式：
+                制冷
             </div>
             <div class="form-group">
-                <label for="inputEmail3" class="col-sm-2 control-label">团名称</label>
-                <div class="col-xs-4">
-                    <input type="text" class="form-control" id="group_name" name="group_name" placeholder="房间名称（不能大于30字）">
-                    </div>
-            </div>
-            <div class="form-group">
-                <label for="inputPassword3" class="col-sm-2 control-label">团KP</label>
-                <div class="col-xs-4">
-                    <input type="text" class="form-control" id="group_kp" name="group_kp" placeholder="请输入kp的uid或者唯一用户名">
+                <label for="inputEmail3" class="col-sm-2 control-label">风速</label>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <div class="btn-group">
+                    <button type="button" class="btn btn-info" id="speedButton">中风</button>
+                    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" class="speed-option">低风</a></li>
+                        <li><a href="#" class="speed-option">中风</a></li>
+                        <li><a href="#" class="speed-option">高风</a></li>
+                    </ul>
                 </div>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                当前设定风速：
+                中风
             </div>
             <div class="form-group">
-                <label for="inputPassword3" class="col-sm-2 control-label">团密码</label>
-                <div class="col-xs-4">
-                    <input type="password" class="form-control" id="group_password" name="group_password" placeholder="最长不超过20个字符（公开和仅邀请房间填写无效）">
+                <label for="inputEmail3" class="col-sm-2 control-label">温度</label>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <div class="btn-group">
+                    <button type="button" class="btn btn-info" id="temperatureButton">25</button>
+                    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu"  id="temperatureDropdown">
+
+                    </ul>
                 </div>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                当前设定温度：
+                25
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                当前房间温度：
+                27
             </div>
             <div class="form-group">
-                <label for="exampleSelect" class="col-sm-2 control-label">选择房间公开类型</label>
-                <div class="col-xs-4">
-                    <select class="form-control" id="grouptype" name="grouptype">
-                        <option>公开</option>
-                        <option>需要密码</option>
-                        <option>仅邀请</option>
-                    </select>
+                <label for="inputEmail3" class="col-sm-2 control-label">开关机</label>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <div class="btn-group">
+                    <button type="button" class="btn btn-danger" id="powerButton">开机</button>
+                    <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu"  id="powerButtonDropdown">
+                        <li><a href="#" class="power-option">开机</a></li>
+                        <li><a href="#" class="power-option">关机</a></li>
+                    </ul>
                 </div>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                当前电源状态：
+                开机
             </div>
             <div class="form-group">
-                <label for="exampleSelect" class="col-sm-2 control-label">选择房间最大人数</label>
-                <div class="col-xs-4">
-                    <select class="form-control" id="maxnum" name="maxnum">
-                        <option>5</option>
-                        <option>6</option>
-                        <option>7</option>
-                        <option>8</option>
-                        <option>9</option>
-                        <option>10</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="exampleTextarea" class="col-sm-2 control-label">团描述/团TAG</label>
-                <div class="col-xs-4">
-                    <textarea class="form-control" id="group_tag" name="group_tag" rows="3"></textarea>
-                </div>
-            </div>
-            <div class="form-group">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <div class="col-sm-offset-2 col-sm-10">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <button type="submit" class="btn btn-success" onclick="return validateForm();">提交更改</button>
                     <a class="btn btn-default" href="{% url 'grouplist' %}" role="button">返回浏览房间</a>
+                </div>
+            </div>
+            <div class="form-group">
+               &nbsp;
+            </div>
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">开房时间：</label>
+                <label for="inputEmail3" class="col-sm-1 control-label">2024-4-25 16:00:00</label>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">已经使用分钟数：</label>
+                <label for="inputEmail3" class="col-sm-1 control-label">246</label>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">共计（元）</label>
+                <label for="inputEmail3" class="col-sm-1 control-label">46</label>
+            </div>
+            <div class="form-group">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <div class="col-sm-offset-2 col-sm-10">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button type="submit" class="btn btn-success" onclick="return validateForm();">查看详单</button>
                 </div>
             </div>
         </form>
@@ -304,4 +317,47 @@
             return false;
         }
     </script>
+
+        <script>
+        $(document).ready(function() {
+            var coolingTemps = [25, 24, 23, 22, 21, 20, 19, 18];
+            var heatingTemps = [25, 26, 27, 28, 29, 30];
+            var selectedMode = '制冷';
+
+            function updateTemperatureOptions() {
+                var temps = selectedMode === '制冷' ? coolingTemps : heatingTemps;
+                var tempDropdown = $('#temperatureDropdown');
+                tempDropdown.empty();
+                temps.forEach(function(temp) {
+                    tempDropdown.append('<li><a href="#" class="temp-option">' + temp + '</a></li>');
+                });
+                $('#temperatureButton').text(temps[0]);
+            }
+
+            $(document).on('click', '.mode-option', function() {
+                selectedMode = $(this).text();
+                $('#modeButton').text(selectedMode);
+                updateTemperatureOptions();
+            });
+
+            $(document).on('click', '.temp-option', function() {
+                var selectedTemp = $(this).text();
+                $('#temperatureButton').text(selectedTemp);
+            });
+
+            $(document).on('click', '.speed-option', function() {
+                var selectedSpeed = $(this).text();
+                $('#speedButton').text(selectedSpeed);
+            });
+            
+            $(document).on('click', '.power-option', function() {
+                var selectedMode = $(this).text();
+                $('#powerButton').text(selectedMode);
+                updateTemperatureOptions();
+            });
+
+            updateTemperatureOptions();
+        });
+    </script>
+
 </body>
