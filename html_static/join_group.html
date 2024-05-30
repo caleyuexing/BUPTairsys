@@ -1,0 +1,151 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>CaleyRun</title>
+    <link rel="stylesheet" href="../static/css/public.css">
+    <link rel="stylesheet" href="../static/css/index.css">
+    <link rel="stylesheet" href="../static/css/caley.css">
+    <link rel="stylesheet" href="../static/css/bootstrap.css">
+    <style>
+    .hahamiddle {
+        width: 80%;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .caley-bg-img {
+        background-image: url('../static/img/creatgroup-bg2.png');
+        background-size: cover;
+        background-position: center;
+        width: 100%;
+        min-height: 69vh;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="video-bg">
+        <img src="../static/img/creatgroup-bg1.png" alt="" class="bg-img">
+        <div class="banner1-info new">
+            <div class="wording">
+				<br>
+                <div class="move-logo"></div>
+                <div class="move-title">Caley跑团OL</div>
+                <div class="move-desc">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="header">
+        <div class="h-inner">
+            <h1 class="logo">
+                <a href="{% url 'index' %}"></a>
+            </h1>
+            <div class="nav">
+                <ul class="nav-ul">
+                    <li class="nav-item"><a href="{% url 'index' %}">首页</a></li>
+                    <li class="nav-item"><a href="{% url 'airconlist' %}" class="active">浏览/创建房间</a></li>
+                    <li class="nav-item"><a href="./support.html">个人中心</a></li>
+                </ul>
+            </div>
+            {% if not userInfo %}
+            <div class="login-register">
+                <a href="{% url 'register' %}">登录/注册</a>
+            </div>
+            {% else %}
+            <div class="user-info-container">
+                <img class="headimg_caley" src="{% static userInfo.headimg %}">
+                <div class="user-data">
+                    <h2>{{ userInfo.u_name }}</h2>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+
+    <script src="../static/js/jquery.min.js"></script>
+    <script src="../static/js/bj-report-tryjs.min.js"></script>
+    <script src="../static/js/swiper-3.4.2.jquery.min.js"></script>
+    <script src="../static/js/bootstrap.js"></script>
+
+
+    <script>
+        var windowHeight = $(window).height()
+            // 页面滚动触发播放事件
+        function pageScroll() {
+            var documentScrollTop = $(document).scrollTop()
+
+            if (documentScrollTop > 10) {
+                $('.header').addClass('scrollTop')
+            } else {
+                $('.header').removeClass('scrollTop')
+            }
+        }
+        $(document).scroll(pageScroll)
+        initVideoPosition()
+
+        function initVideoPosition() {
+            var w = 2560,
+                h = 997,
+                ml = 1298,
+                mb = 126,
+                mw = 180,
+                mh = 319,
+                pl = 1519,
+                pb = 264,
+                pw = 626,
+                ph = 501,
+                nw = (document.body.clientWidth).toFixed(9),
+                nh = (nw * h / w).toFixed(9),
+                mlp = (ml / w).toFixed(9),
+                mbp = (mb / h).toFixed(9),
+                mwp = (mw / w).toFixed(9),
+                mhp = (mh / h).toFixed(9),
+                mlnpx = nw * mlp,
+                mbnpx = nh * mbp,
+                mwnpx = nw * mwp,
+                mhnpx = nh * mhp,
+
+
+                plp = (pl / w).toFixed(9),
+                pbp = (pb / h).toFixed(9),
+                pwp = (pw / w).toFixed(9),
+                php = (ph / h).toFixed(9),
+                plnpx = nw * plp,
+                pbnpx = nh * pbp,
+                pwnpx = nw * pwp,
+                phnpx = nh * php
+            $('.video-mob').css({
+                bottom: mbnpx + 'px',
+                left: mlnpx + 'px',
+                width: mwnpx + 'px',
+                height: mhnpx + 'px'
+            })
+            $('.video-pc').css({
+                bottom: pbnpx + 'px',
+                left: plnpx + 'px',
+                width: pwnpx + 'px',
+                height: phnpx + 'px'
+            })
+
+        }
+        $('.wording').addClass('show')
+        window.onresize = function() {
+            initVideoPosition()
+        }
+        document.onmouseenter = function() {
+            return false;
+        }
+        document.onmousemove = function() {
+            return false;
+        }
+        document.oncontextmenu = function() {
+            return false;
+        }
+    </script>
+</body>

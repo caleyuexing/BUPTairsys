@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>CaleyRun</title>
+    <link rel="stylesheet" href="../static/css/public.css">
+    <link rel="stylesheet" href="../static/css/index.css">
+    <link rel="stylesheet" href="../static/css/caley.css">
+    <link rel="stylesheet" href="../static/css/bootstrap.css">
+    <link rel="SHORTCUT ICON" href="../favicon.ico"/>
+    <style>
+    .hahamiddle {
+        width: 80%;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="video-bg">
+        <img src="../static/img/grouplist-bg1.png" alt="" class="bg-img">
+        <div class="banner1-info new">
+            <div class="wording">
+                <div class="move-logo"></div>
+                <div class="move-title">BUPT空调控制系统</div>
+                <div class="move-desc">
+                    <form action="{% url 'grouplist' %}" method="get">
+                        <div class="input-group">
+                            <input type="search" class="form-control" value="" name="q" placeholder="搜索房间号">
+                            <span class="input-group-btn">
+                                <button type="search" class="btn btn-warning" >搜索</button>
+                            </span>
+                        </div><!-- /input-group -->
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="header">
+        <div class="h-inner">
+            <h1 class="logo">
+                <a href="{% url 'index' %}"></a>
+            </h1>
+            <div class="nav">
+                <ul class="nav-ul">
+                    <li class="nav-item"><a href="{% url 'index' %}">首页</a></li>
+                    <li class="nav-item"><a href="{% url 'airconlist' %}" class="active">浏览/管理空调</a></li>
+                    <li class="nav-item"><a href="./support.html">个人中心</a></li>
+                </ul>
+            </div>
+            <div class="login-register">
+                <a href="{% url 'register' %}">登录/注册</a>
+            </div>
+        </div>
+    </div>
+    <div class="hahamiddle">
+        <div class="btn-group btn-group-lg" role="group" aria-label="...">
+            <a type="button" class="btn btn-default" href="?q={{ context.query }}&sortby=CreadedTime_back">按房间号降序</a>
+            <a type="button" class="btn btn-default" href="?q={{ context.query }}&sortby=CreadedTime">按房间号升序</a>
+            <a type="button" class="btn btn-default" href="?q={{ context.query }}&sortby=group_users_num_back">按温度降序</a>
+            <a type="button" class="btn btn-default" href="?q={{ context.query }}&sortby=group_users_num">按温度升序</a>
+        </div>
+    </div>
+    <div class="hahamiddle">
+            <div class="row">
+                <div class="col-sm-6 col-md-3">
+                    <div class="thumbnail">
+                        <div class="caption">
+                            <h3>总控</h3>
+                            <p>状态：开机</p>
+                            <p>处理队列：10/10</p>
+                            <p>等待队列：7</p>
+                            <p>----------</p>
+                            <p><a href="#" class="btn btn-primary" role="button">管理</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-3">
+                    <div class="thumbnail">
+                        <div class="caption">
+                            <h3>101</h3>
+                            <p>状态：开机</p>
+                            <p>温度：27</p>
+                            <p>模式：制热</p>
+                            <p>房间归属：张三</p>
+                            <p><a href="#" class="btn btn-primary" role="button">管理</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-3">
+                    <div class="thumbnail">
+                        <div class="caption">
+                            <h3>102</h3>
+                            <p>状态：开机</p>
+                            <p>温度：27</p>
+                            <p>模式：制热</p>
+                            <p>房间归属：张三</p>
+                            <p><a href="#" class="btn btn-primary" role="button">管理</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-3">
+                    <div class="thumbnail">
+                        <div class="caption">
+                            <h3>103</h3>
+                            <p>状态：开机</p>
+                            <p>温度：27</p>
+                            <p>模式：制热</p>
+                            <p>房间归属：张三</p>
+                            <p><a href="#" class="btn btn-primary" role="button">管理</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-3">
+                    <div class="thumbnail">
+                        <div class="caption">
+                            <h3>104</h3>
+                            <p>状态：开机</p>
+                            <p>温度：27</p>
+                            <p>模式：制热</p>
+                            <p>房间归属：张三</p>
+                            <p><a href="#" class="btn btn-primary" role="button">管理</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-3">
+                    <div class="thumbnail">
+                        <div class="caption">
+                            <h3>105</h3>
+                            <p>状态：开机</p>
+                            <p>温度：27</p>
+                            <p>模式：制热</p>
+                            <p>房间归属：张三</p>
+                            <p><a href="#" class="btn btn-primary" role="button">管理</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-3">
+                    <div class="thumbnail">
+                        <div class="caption">
+                            <h3>201</h3>
+                            <p>状态：开机</p>
+                            <p>温度：27</p>
+                            <p>模式：制热</p>
+                            <p>房间归属：张三</p>
+                            <p><a href="#" class="btn btn-primary" role="button">管理</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-3">
+                    <div class="thumbnail">
+                        <div class="caption">
+                            <h3>202</h3>
+                            <p>状态：开机</p>
+                            <p>温度：27</p>
+                            <p>模式：制热</p>
+                            <p>房间归属：张三</p>
+                            <p><a href="#" class="btn btn-primary" role="button">管理</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                <nav aria-label="Page navigation">
+                    <ul class="pagination">
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ context.results.previous_page_number }}{% if context.query %}&q={{ context.query }}{% endif %}&sortby={{ context.sortby }}" aria-label="上一页">
+                                    <span aria-hidden="true">&laquo;</span>
+                                    <span class="sr-only">上一页</span>
+                                </a>
+                            </li>
+
+                                <li class="page-item active">
+                                    <span class="page-link">1 <span class="sr-only">(current)</span></span>
+                                </li>
+
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ i }}{% if context.query %}&q={{ context.query }}{% endif %}&sortby={{ context.sortby }}">2</a>
+                            </li>
+
+
+
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ context.results.next_page_number }}{% if context.query %}&q={{ context.query }}{% endif %}&sortby={{ context.sortby }}" aria-label="下一页">
+                                    <span aria-hidden="true">&raquo;</span>
+                                    <span class="sr-only">下一页</span>
+                                </a>
+                            </li>
+
+                    </ul>
+                </nav>
+
+            <div class="jumbotron">
+                <h1>房间不存在或您未拥有权限</h1>
+                <p>如有疑问请联系前台，或客服电话</p>
+            </div>
+
+    </div>
+
+
+    <script src="../static/js/jquery.min.js"></script>
+    <script src="../static/js/bj-report-tryjs.min.js"></script>
+    <script src="../static/js/swiper-3.4.2.jquery.min.js"></script>
+    <script src="../static/js/bootstrap.js"></script>
+
+    <script>
+        var windowHeight = $(window).height()
+            // 页面滚动触发播放事件
+        function pageScroll() {
+            var documentScrollTop = $(document).scrollTop()
+
+            if (documentScrollTop > 10) {
+                $('.header').addClass('scrollTop')
+            } else {
+                $('.header').removeClass('scrollTop')
+            }
+        }
+        $(document).scroll(pageScroll)
+        initVideoPosition()
+
+        function initVideoPosition() {
+            var w = 2560,
+                h = 997,
+                ml = 1298,
+                mb = 126,
+                mw = 180,
+                mh = 319,
+                pl = 1519,
+                pb = 264,
+                pw = 626,
+                ph = 501,
+                nw = (document.body.clientWidth).toFixed(9),
+                nh = (nw * h / w).toFixed(9),
+                mlp = (ml / w).toFixed(9),
+                mbp = (mb / h).toFixed(9),
+                mwp = (mw / w).toFixed(9),
+                mhp = (mh / h).toFixed(9),
+                mlnpx = nw * mlp,
+                mbnpx = nh * mbp,
+                mwnpx = nw * mwp,
+                mhnpx = nh * mhp,
+
+
+                plp = (pl / w).toFixed(9),
+                pbp = (pb / h).toFixed(9),
+                pwp = (pw / w).toFixed(9),
+                php = (ph / h).toFixed(9),
+                plnpx = nw * plp,
+                pbnpx = nh * pbp,
+                pwnpx = nw * pwp,
+                phnpx = nh * php
+            $('.video-mob').css({
+                bottom: mbnpx + 'px',
+                left: mlnpx + 'px',
+                width: mwnpx + 'px',
+                height: mhnpx + 'px'
+            })
+            $('.video-pc').css({
+                bottom: pbnpx + 'px',
+                left: plnpx + 'px',
+                width: pwnpx + 'px',
+                height: phnpx + 'px'
+            })
+
+        }
+        $('.wording').addClass('show')
+        window.onresize = function() {
+            initVideoPosition()
+        }
+        document.onmouseenter = function() {
+            return false;
+        }
+        document.onmousemove = function() {
+            return false;
+        }
+        document.oncontextmenu = function() {
+            return false;
+        }
+    </script>
+</body>

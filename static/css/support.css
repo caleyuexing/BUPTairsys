@@ -1,0 +1,372 @@
+body {
+    padding-top: 54px;
+    background-color: #f5f5f5;
+    transition: transform 0.4s;
+}
+
+.logs-top {
+    transform: translateY(-378px)
+}
+
+.hisTop {
+    transform: translateY(-1224px)
+}
+
+.support-list {
+    padding-top: 52px;
+    width: 914px;
+    margin: 0 auto;
+    padding-bottom: 64px;
+}
+
+.item1 {
+    height: 68px;
+    background: url(../img/log-icon.png) no-repeat center 0;
+    background-size: auto 68px;
+}
+
+.item2 {
+    height: 68px;
+    background: url(../img/questions.png) no-repeat center 0;
+    background-size: auto 68px;
+}
+
+.item3 {
+    height: 68px;
+    background: url(../img/safe-icon.png) no-repeat center 0;
+    background-size: auto 68px;
+}
+
+.item4 {
+    height: 68px;
+    background: url(../img/suggest.png) no-repeat center 0;
+    background-size: auto 68px;
+}
+
+.s-list-item {
+    width: 228px;
+    float: left;
+}
+
+.s-list-item .hover-item {
+    transition: transform 0.3s;
+}
+
+.s-list-item:hover .hover-item {
+    transform: translateY(6px)
+}
+
+.s-desc {
+    padding: 18px 0 0 0;
+    text-align: center;
+    color: #333333;
+    line-height: 32px;
+    font-size: 18px;
+}
+
+.l-content {
+    background-color: #ebebeb;
+}
+
+.content-icon {
+    padding-top: 136px;
+    height: 160px;
+    background: url(../img/log-icon.png) no-repeat center 136px;
+}
+
+.icon-text {
+    padding-top: 118px;
+    line-height: 42px;
+    text-align: center;
+    font-size: 28px;
+    color: #333;
+}
+
+.version-list {
+    width: 900px;
+    margin: 0 auto;
+    color: #333;
+    font-size: 16px;
+    padding-bottom: 100px;
+}
+
+.newversion {
+    font-size: 18px;
+    color: #000;
+    line-height: 46px;
+    font-weight: 500
+}
+
+.paddingtop {
+    padding-top: 42px;
+}
+
+.newfunc-title {
+    line-height: 32px;
+}
+
+.optimization {
+    padding-top: 10px;
+}
+
+.history-version {
+    padding-top: 46px;
+}
+
+.history-version-title {
+    line-height: 30px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #dbdbdb
+}
+
+.history-version-title span {
+    margin-left: 50px;
+    color: #0188fb;
+    padding-right: 24px;
+    background: url(../img/shou.png) no-repeat right center;
+    cursor: pointer;
+}
+
+.history-version-item {
+    /* height: 72px; */
+    border-bottom: 1px solid #dbdbdb;
+    position: relative;
+}
+
+.clickup {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    display: none;
+    color: #0188fb;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.clickup.show {
+    display: block
+}
+
+.arrow {
+    width: 12px;
+    height: 12px;
+    background: url(../img/down.png) no-repeat 0 0;
+    background-size: 12px;
+    margin-left: 34px;
+    display: none;
+}
+
+.show .arrow {
+    width: 12px;
+    height: 12px;
+    background: url(../img/up.png) no-repeat 0 0;
+    background-size: 12px;
+    margin-left: 34px;
+    display: none;
+}
+
+.blue-up {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    background: url(../img/up_blue.png) no-repeat 0 0;
+    background-size: 12px;
+    margin-left: 8px;
+}
+
+.history-version-item-content {
+    padding-bottom: 20px;
+    display: none
+}
+
+.history-version-item-title {
+    cursor: pointer;
+    font-size: 20px;
+    color: #777;
+    line-height: 50px;
+    transition: all 0.3s;
+}
+
+.history-version-item-title:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+    text-indent: 24px;
+}
+
+.history-version-item-title:hover .arrow {
+    display: inline-block
+}
+
+.questions {
+    background-color: #f5f5f5;
+    padding: 100px 0;
+}
+
+.ques-icon {
+    height: 80px;
+    background: url(../img/questions.png) no-repeat center 0;
+}
+
+.ques-text {
+    padding-top: 34px;
+    line-height: 54px;
+    text-align: center;
+    font-size: 30px;
+    color: #333;
+    padding-bottom: 54px;
+}
+
+.ques-list {
+    width: 900px;
+    margin: 0 auto
+}
+
+.ques-item-title {
+    font-size: 18px;
+    color: #333;
+    line-height: 44px;
+    /* padding-left: 24px; */
+    /* background: url(../img/dot.png) no-repeat 0 center */
+}
+
+.newfunc-list {
+    line-height: 22px;
+    padding-bottom: 8px;
+}
+
+.ques-item-content {
+    padding: 0px 22px 28px 0px;
+    line-height: 26px;
+    color: #666;
+    font-size: 16px
+}
+
+.more-ques {
+    width: 900px;
+    margin: 0 auto;
+    border-top: 1px solid #dbdbdb;
+    line-height: 70px;
+}
+
+.more-ques a {
+    color: #0188fb;
+    font-size: 18px
+}
+
+.more-ques a:hover {
+    text-decoration: underline
+}
+
+.safe {
+    background-color: #fff;
+    padding: 104px 0 162px 0;
+}
+
+.suggest {
+    background-color: #e6e6e6;
+    padding: 104px 0 162px 0;
+}
+
+.safe-icon {
+    height: 90px;
+    background: url(../img/safe-icon.png) no-repeat center 0
+}
+
+.suggest-icon {
+    height: 90px;
+    background: url(../img/suggest.png) no-repeat center 0
+}
+
+.safe-text,
+.suggest-text {
+    padding: 28px 0 20px 0;
+    line-height: 34px;
+    font-size: 28px;
+    color: #333;
+    text-align: center
+}
+
+.safe-content,
+.suggest-content {
+    line-height: 42px;
+    color: #333;
+    text-align: center;
+    font-size: 28px
+}
+
+.safe-content a,
+.suggest-content a {
+    color: #0188fb
+}
+
+.safe-content a:hover,
+.suggest-content a:hover {
+    text-decoration: underline
+}
+
+.update-log {
+    padding-top: 80px;
+    width: 900px;
+    margin: 0 auto;
+    font-size: 24px;
+    font-weight: 500
+}
+
+.newversion .update-time {
+    color: #000;
+    padding-left: 20px;
+    font-weight: normal
+}
+
+.dayly-ques {
+    width: 900px;
+    margin: 0 auto;
+    font-size: 24px;
+    font-weight: 500
+}
+
+.target-a {
+    margin: 0 34px;
+    display: block;
+    padding: 44px 0;
+    transition: all 0.5s;
+}
+
+.target-a:hover {
+    background-color: #fafafa;
+    -moz-box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.05);
+    -webkit-box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.05);
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.05);
+}
+
+@media screen and (max-width:1366px) {
+    .support-list {
+        padding-top: 10px;
+        padding-bottom: 30px;
+    }
+    .ques-item-content {
+        margin-top: -6px;
+    }
+    .ques-item-content {
+        padding: 0px 22px 12px 0px;
+    }
+    .target-a {
+        margin: 0 40px;
+        padding: 38px 0;
+    }
+    .newfunc-list {
+        font-size: 14px;
+    }
+    .ques-item-content {
+        font-size: 14px;
+        line-height: 20px;
+    }
+    .newfunc-title {
+        font-size: 18px;
+    }
+    .history-version-item-title {
+        font-size: 18px;
+    }
+    .history-version-title {
+        font-size: 18px;
+    }
+}

@@ -1,0 +1,195 @@
+{% load static %}
+<!DOCTYPE html>
+<html >
+<head>
+<meta charset="UTF-8">
+<title>CaleyRun登陆与注册</title>
+<link rel="stylesheet" href="../static/css/public.css">
+<link rel="stylesheet" href="../static/css/index.css">
+<link rel="stylesheet" href="../static/css/register.css">
+<link rel="stylesheet" href="../static/css/caley.css">
+</head>
+<style>
+  .cont_centrar {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+    height: 70%;
+  }
+
+  .cont_info_log_sign_up {
+    margin-top: auto;
+    margin-bottom: 30px;
+  }
+</style>
+<body>
+
+<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+<link rel='stylesheet prefetch' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
+
+<div class="header">
+        <div class="h-inner">
+            <h1 class="logo">
+                <a href="{% url 'index' %}"></a>
+                <!-- <img src="./img/logo.png" alt="TIM"> -->
+            </h1>
+            <div class="nav">
+                <ul class="nav-ul">
+                    <li class="nav-item"><a href="{% url 'index' %}">首页</a></li>
+                    <li class="nav-item"><a href="{% url 'airconlist' %}">浏览/创建房间</a></li>
+                    <li class="nav-item"><a href="./support.html">个人中心</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+<div class="cotn_principal">
+  <div class="cont_centrar">
+    <div class="cont_login">
+      <div class="cont_info_log_sign_up">
+        <div class="col_md_login">
+          <div class="cont_ba_opcitiy">
+            <h2>登录</h2>
+            <p>欢迎回到Caley的跑团网站</p>
+            <button type="button" class="btn_login" onClick="cambiar_login()">登录</button>
+          </div>
+        </div>
+        <div class="col_md_sign_up">
+          <div class="cont_ba_opcitiy">
+            <h2>注册</h2>
+            <p>欢迎加入Caley的跑团网站</p>
+            <button type="button" class="btn_sign_up" onClick="cambiar_sign_up()">注册</button>
+          </div>
+        </div>
+      </div>
+      <div class="cont_back_info">
+        <div class="cont_img_back_grey"> <img src="../static/img/po.png" alt="" /> </div>
+      </div>
+      <div class="cont_forms" >
+        <div class="cont_img_back_"> <img src="../static/img/po.png" alt="" /> </div>
+        <div class="cont_form_login"> <a href="#" onClick="ocultar_login_sign_up()" ><i class="material-icons">&#xE5C4;</i></a>
+          <h2>登录</h2>
+          <input type="text" placeholder="身份证或手机号" />
+          <input type="password" placeholder="密码" />
+          <button type="button" class="btn_login" onClick="login()">登录</button>
+        </div>
+        <div class="cont_form_sign_up"> <a href="#" onClick="ocultar_login_sign_up()"><i class="material-icons">&#xE5C4;</i></a>
+          <h2>注册</h2>
+          <input type="idcard" placeholder="身份证号" />
+          <input type="tel" placeholder="手机号" />
+          <input type="text" placeholder="姓名" />
+          <input type="password" placeholder="密码" />
+          <input type="password" placeholder="重复密码" />
+          <button type="button" class="btn_sign_up" onClick="sign_up()">注册</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function login() {
+  // 获取表单元素和表单数据
+  var idcard = document.querySelector('.cont_form_login input[type="text"]').value;
+  var password = document.querySelector('.cont_form_login input[type="password"]').value;
+
+
+  // 创建 XMLHttpRequest 对象
+  var xhr = new XMLHttpRequest();
+
+  // 设置 POST 请求信息
+  xhr.open('POST', '{% url 'login' %}');
+  xhr.setRequestHeader('Content-Type', 'application/json');
+
+
+  // 定义响应处理函数
+  xhr.onload = function() {
+    if (xhr.status === 200) {
+      // 处理成功响应
+      var response = JSON.parse(xhr.responseText);
+      if (response.success == true){
+        var date = new Date();
+        date.setTime(date.getTime() + 60000000);
+        document.cookie = 'ticket=' + response.tkt + '; expires=' + date.toUTCString() + '; path=/';
+        alert("登陆成功");
+        window.location.href = '{% url 'index' %}';
+      }
+      else{
+        if (response.errorid == 1){
+          alert("密码错误");
+        }
+        else if (response.errorid == 2){
+          alert("没有此用户");
+        }
+      }
+    } 
+    else {
+      // 处理错误响应
+      alert('请求失败\n多次失败请联系管理员');
+    }
+  };
+
+  // 发送 POST 请求
+  xhr.send(JSON.stringify({idcard: idcard, password: password}));
+}
+</script>
+
+<script>
+  function sign_up() {
+    // 获取表单元素和表单数据
+    var idcard = document.querySelector('.cont_form_sign_up input[type="idcard"]').value;
+    var tel = document.querySelector('.cont_form_sign_up input[type="tel"]').value;
+    var name = document.querySelector('.cont_form_sign_up input[type="text"]').value;
+    var repassword = document.querySelector('.cont_form_sign_up input[placeholder="重复密码"]').value;
+    var password = document.querySelector('.cont_form_sign_up input[type="password"]').value;
+
+    // 创建 XMLHttpRequest 对象
+    var xhr = new XMLHttpRequest();
+
+    // 设置 POST 请求信息
+    xhr.open('POST', '{% url 'register' %}');
+    xhr.setRequestHeader('Content-Type', 'application/json');
+
+    // 定义响应处理函数
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        // 处理成功响应
+        var response = JSON.parse(xhr.responseText);
+        if (response.success == true){
+          alert("注册成功,请登录");
+          location.reload();
+        }
+        else{
+          if(response.errorid == 1){
+            alert(response.error);
+          }
+          else if(response.errorid == 2){
+            alert(response.error);
+          }
+          else if(response.errorid == 3){
+            alert(response.error);
+          }
+          else if(response.errorid == 4){
+            alert(response.error);
+          }
+          else if(response.errorid == 5){
+            alert(response.error);
+          }
+        }
+        console.log(response);
+      } 
+      else {
+        // 处理错误响应
+        alert('请求失败,请重试。\n多次失败请联系管理员');
+      }
+    };
+
+    // 发送 POST 请求
+    xhr.send(JSON.stringify({idcard: idcard, password: password,repassword: repassword,tel: tel,name: name}));
+  }
+</script>
+
+<script src="../static/js/register.js"></script>
+
+</body>
+</html>
