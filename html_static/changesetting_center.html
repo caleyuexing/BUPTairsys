@@ -23,6 +23,7 @@
         min-height: 69vh;
     }
     </style>
+    
 </head>
 
 <body>
@@ -33,6 +34,9 @@
 				<br>
                 <div class="move-logo"></div>
                 <div class="move-title">空调总机</div>
+                <div class="power-button">
+                    <button class="btn btn-danger" id="powerButton">关机</button>
+                </div>
                 <div class="move-desc">
                 </div>
             </div>
@@ -57,123 +61,39 @@
         </div>
     </div>
     <div class="caley-bg-img">
-        <form class="form-horizontal" enctype="multipart/form-data" method="POST">
-            <div class="form-group">
-               &nbsp;
-            </div>
-            <div class="form-group">
-                <label for="inputEmail3" class="col-sm-2 control-label">模式</label>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <div class="btn-group">
-                    <button type="button" class="btn btn-info" id="modeButton">制冷</button>
-                    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="caret"></span>
-                        <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a href="#" class="mode-option">制冷</a></li>
-                        <li><a href="#" class="mode-option">制热</a></li>
-                    </ul>
-                </div>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                当前设定模式：
-                制冷
-            </div>
-            <div class="form-group">
-                <label for="inputEmail3" class="col-sm-2 control-label">风速</label>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <div class="btn-group">
-                    <button type="button" class="btn btn-info" id="speedButton">中风</button>
-                    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="caret"></span>
-                        <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a href="#" class="speed-option">低风</a></li>
-                        <li><a href="#" class="speed-option">中风</a></li>
-                        <li><a href="#" class="speed-option">高风</a></li>
-                    </ul>
-                </div>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                当前设定风速：
-                中风
-            </div>
-            <div class="form-group">
-                <label for="inputEmail3" class="col-sm-2 control-label">温度</label>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <div class="btn-group">
-                    <button type="button" class="btn btn-info" id="temperatureButton">25</button>
-                    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="caret"></span>
-                        <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <ul class="dropdown-menu"  id="temperatureDropdown">
+        <div class="container">
+        <h2>正在进行的请求</h2>
+        <table class="table table-bordered status-table">
+            <thead>
+                <tr>
+                    <th>房间号</th>
+                    <th>房间温度</th>
+                    <th>预设温度</th>
+                    <th>预设风速</th>
+                </tr>
+            </thead>
+            <tbody id="activeRequests">
+                <!-- 动态生成的正在进行的请求行 -->
+            </tbody>
+        </table>
 
-                    </ul>
-                </div>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                当前设定温度：
-                25
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                当前房间温度：
-                27
-            </div>
-            <div class="form-group">
-                <label for="inputEmail3" class="col-sm-2 control-label">开关机</label>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <div class="btn-group">
-                    <button type="button" class="btn btn-danger" id="powerButton">开机</button>
-                    <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="caret"></span>
-                        <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <ul class="dropdown-menu"  id="powerButtonDropdown">
-                        <li><a href="#" class="power-option">开机</a></li>
-                        <li><a href="#" class="power-option">关机</a></li>
-                    </ul>
-                </div>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                当前电源状态：
-                开机
-            </div>
-            <div class="form-group">
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <div class="col-sm-offset-2 col-sm-10">
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <button type="submit" class="btn btn-success" onclick="return validateForm();">提交更改</button>
-                    <a class="btn btn-default" href="{% url 'grouplist' %}" role="button">返回浏览房间</a>
-                </div>
-            </div>
-            <div class="form-group">
-               &nbsp;
-            </div>
-            <div class="form-group">
-                <label for="inputEmail3" class="col-sm-2 control-label">开房时间：</label>
-                <label for="inputEmail3" class="col-sm-1 control-label">2024-4-25 16:00:00</label>
-            </div>
-            <div class="form-group">
-                <label for="inputEmail3" class="col-sm-2 control-label">已经使用分钟数：</label>
-                <label for="inputEmail3" class="col-sm-1 control-label">246</label>
-            </div>
-            <div class="form-group">
-                <label for="inputEmail3" class="col-sm-2 control-label">共计（元）</label>
-                <label for="inputEmail3" class="col-sm-1 control-label">46</label>
-            </div>
-            <div class="form-group">
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <div class="col-sm-offset-2 col-sm-10">
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <button type="submit" class="btn btn-success" onclick="return validateForm();">查看详单</button>
-                </div>
-            </div>
-        </form>
+        <h2>正在等待的请求</h2>
+        <table class="table table-bordered status-table">
+            <thead>
+                <tr>
+                    <th>房间号</th>
+                    <th>房间温度</th>
+                    <th>预设温度</th>
+                    <th>预设风速</th>
+                    <th>已等待时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody id="waitingRequests">
+                <!-- 动态生成的正在等待的请求行 -->
+            </tbody>
+        </table>
+    </div>
     </div>
 
 
@@ -358,6 +278,78 @@
 
             updateTemperatureOptions();
         });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            // 示例数据
+            const activeRequests = [
+                { room: '101', roomTemp: '22°C', presetTemp: '24°C', presetSpeed: '中' },
+                { room: '102', roomTemp: '23°C', presetTemp: '25°C', presetSpeed: '高' },
+                { room: '101', roomTemp: '22°C', presetTemp: '24°C', presetSpeed: '中' },
+                { room: '102', roomTemp: '23°C', presetTemp: '25°C', presetSpeed: '高' },
+                { room: '101', roomTemp: '22°C', presetTemp: '24°C', presetSpeed: '中' },
+                { room: '102', roomTemp: '23°C', presetTemp: '25°C', presetSpeed: '高' },
+                { room: '101', roomTemp: '22°C', presetTemp: '24°C', presetSpeed: '中' },
+                { room: '102', roomTemp: '23°C', presetTemp: '25°C', presetSpeed: '高' },
+                { room: '101', roomTemp: '22°C', presetTemp: '24°C', presetSpeed: '中' },
+                { room: '102', roomTemp: '23°C', presetTemp: '25°C', presetSpeed: '高' },
+                // 添加更多正在进行的请求
+            ];
+
+            const waitingRequests = [
+                { room: '201', roomTemp: '24°C', presetTemp: '26°C', presetSpeed: '低', waitingTime: '5分钟' },
+                { room: '202', roomTemp: '25°C', presetTemp: '27°C', presetSpeed: '中', waitingTime: '10分钟' },
+                { room: '201', roomTemp: '24°C', presetTemp: '26°C', presetSpeed: '低', waitingTime: '5分钟' },
+                { room: '202', roomTemp: '25°C', presetTemp: '27°C', presetSpeed: '中', waitingTime: '10分钟' },
+                { room: '201', roomTemp: '24°C', presetTemp: '26°C', presetSpeed: '低', waitingTime: '5分钟' },
+                { room: '202', roomTemp: '25°C', presetTemp: '27°C', presetSpeed: '中', waitingTime: '10分钟' },
+                // 添加更多正在等待的请求
+            ];
+
+            // 生成正在进行的请求行
+            activeRequests.forEach(request => {
+                $('#activeRequests').append(`
+                    <tr>
+                        <td>${request.room}</td>
+                        <td>${request.roomTemp}</td>
+                        <td>${request.presetTemp}</td>
+                        <td>${request.presetSpeed}</td>
+                    </tr>
+                `);
+            });
+
+            // 生成正在等待的请求行
+            waitingRequests.forEach((request, index) => {
+                $('#waitingRequests').append(`
+                    <tr id="waitingRequest${index}">
+                        <td>${request.room}</td>
+                        <td>${request.roomTemp}</td>
+                        <td>${request.presetTemp}</td>
+                        <td>${request.presetSpeed}</td>
+                        <td>${request.waitingTime}</td>
+                        <td>
+                            <button class="btn btn-info btn-top" onclick="moveToTop(${index})">置顶</button>
+                        </td>
+                    </tr>
+                `);
+            });
+            // 电源按钮切换功能
+            $('#powerButton').click(function() {
+                const currentText = $(this).text();
+                if (currentText === "关机") {
+                    $(this).text("开机").removeClass("btn-danger").addClass("btn-success");
+                } else {
+                    $(this).text("关机").removeClass("btn-success").addClass("btn-danger");
+                }
+            });
+        });
+
+        // 置顶功能
+        function moveToTop(index) {
+            const requestRow = $(`#waitingRequest${index}`);
+            $('#waitingRequests').prepend(requestRow);
+        }
     </script>
 
 </body>

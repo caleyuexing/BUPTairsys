@@ -81,3 +81,51 @@
   direction: ltr;
   -webkit-font-smoothing: antialiased;
 }
+
+
+.status-list {
+  margin-top: 20px;
+}
+.status-header {
+  font-weight: bold;
+}
+.waiting-request {
+  display: flex;
+  align-items: center;
+}
+.btn-top {
+  margin-left: 10px;
+}
+.status-table {
+  margin-top: 20px;
+  width: 100%;
+}
+.status-table th, .status-table td {
+  text-align: center;
+  vertical-align: middle;
+  
+  font-size: 15px; /* 增大字体 */
+}
+.status-table .btn-top {
+  margin-left: 10px;
+}
+.status-table th {
+  background-color: #fdbcbc;
+}
+.status-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+.status-table tbody tr:nth-child(odd) {
+  background-color: #aaaaaa; /* 设置单数行背景颜色 */
+}
+.status-table-container {
+  margin-top: 20px;
+  border-radius: 10px; /* 圆角 */
+  overflow: hidden; /* 防止圆角边界溢出 */
+  border: 1px solid #ddd; /* 边框颜色 */
+}
+.status-table {
+  width: 100%;
+  border-radius: 10px; /* 圆角 */
+  overflow: hidden; /* 防止圆角边界溢出 */
+}
