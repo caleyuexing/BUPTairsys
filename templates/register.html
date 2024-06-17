@@ -175,12 +175,15 @@ function login() {
           else if(response.errorid == 5){
             alert(response.error);
           }
+          else {
+            // 处理错误响应
+            alert('请求失败,请重试。\n多次失败请联系管理员');
+          }   
         }
         console.log(response);
       } 
       else {
-        // 处理错误响应
-        alert('请求失败,请重试。\n多次失败请联系管理员');
+        alert('注册成功，请登录');
       }
     };
 

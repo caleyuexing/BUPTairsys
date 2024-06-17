@@ -19,7 +19,7 @@ class Group(models.Model):
     #0制冷，1制热
     Aircon_current_wind = models.CharField(max_length=5,default='2')
     #风速：0关闭，1低风，2中风，3高风
-    room_current_temp = models.CharField(max_length=5,default='25')
+    room_current_temp = models.CharField(max_length=5,default='30')
     room_img = models.CharField(max_length=255, default='img/groupimg/default.png')
 
     class Meta:

@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from Users.views import index,register,login
-from Aircons.views import airconlist
+from Aircons.views import airconlist,creatOrder
 from django.views.generic.base import RedirectView
 
 urlpatterns = [
@@ -26,5 +26,6 @@ urlpatterns = [
     path('register/',register,name='register'),
     path('airconlist/',airconlist,name='airconlist'),
     path('login/',login,name='login'),
+    path('creatOrder/',creatOrder,name='creatOrder'),
     path('favicon.ico', RedirectView.as_view(url='/static/img/favicon.ico', permanent=True)),
 ]
