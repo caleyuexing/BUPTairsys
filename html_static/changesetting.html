@@ -60,7 +60,101 @@
     </div>
     <div class="caley-bg-img">
         <form class="form-horizontal" enctype="multipart/form-data" method="POST">
+            <div class="form-group">
+               &nbsp;
+            </div>
+            {% if userInfo.user_state ==  "3" or userInfo.user_state == "1" or userInfo.user_state == "0"%}
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">模式</label>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <div class="btn-group">
+                    <button type="button" class="btn btn-info" id="modeButton">制冷</button>
+                    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" class="mode-option">制冷</a></li>
+                        <li><a href="#" class="mode-option">制热</a></li>
+                    </ul>
+                </div>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                当前设定模式：
+                制冷
+            </div>
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">风速</label>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <div class="btn-group">
+                    <button type="button" class="btn btn-info" id="speedButton">中风</button>
+                    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" class="speed-option">低风</a></li>
+                        <li><a href="#" class="speed-option">中风</a></li>
+                        <li><a href="#" class="speed-option">高风</a></li>
+                    </ul>
+                </div>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                当前设定风速：
+                中风
+            </div>
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">温度</label>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <div class="btn-group">
+                    <button type="button" class="btn btn-info" id="temperatureButton">25</button>
+                    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu"  id="temperatureDropdown">
 
+                    </ul>
+                </div>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                当前设定温度：
+                25
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                当前房间温度：
+                27
+            </div>
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">开关机</label>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <div class="btn-group">
+                    <button type="button" class="btn btn-danger" id="powerButton">开机</button>
+                    <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu"  id="powerButtonDropdown">
+                        <li><a href="#" class="power-option">开机</a></li>
+                        <li><a href="#" class="power-option">关机</a></li>
+                    </ul>
+                </div>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                当前电源状态：
+                开机
+            </div>
+            <div class="form-group">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <div class="col-sm-offset-2 col-sm-10">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button type="submit" class="btn btn-success" onclick="return validateForm();">提交更改</button>
+                    <a class="btn btn-default" href="{% url 'grouplist' %}" role="button">返回浏览房间</a>
+                </div>
+            </div>
+            {% endif %}
+            {% if userInfo.user_state ==  "2" or userInfo.user_state == "1" or userInfo.user_state == "0"%}
             <div class="form-group">
                &nbsp;
             </div>
@@ -87,6 +181,7 @@
                     {% endif %}
                 </div>
             </div>
+            {% endif %}
         </form>
     </div>
 
@@ -95,67 +190,6 @@
     <script src="../static/js/bj-report-tryjs.min.js"></script>
     <script src="../static/js/swiper-3.4.2.jquery.min.js"></script>
     <script src="../static/js/bootstrap.js"></script>
-
-    <script>
-        function validateForm() {
-            var group_name = document.getElementById("group_name").value;
-            var group_kp = document.getElementById("group_kp").value;
-            var group_password = document.getElementById("group_password").value;
-            var grouptype = document.getElementById("grouptype").value;
-            var maxnum = document.getElementById("maxnum").value;
-            var group_tag = document.getElementById("group_tag").value;
-            var group_headimg = document.getElementById("group_headimg");
-            var group_headimgSize = group_headimg.files[0].size;
-            var group_headimgType = group_headimg.files[0].type;
-            var alert_msg = '';
-
-  
-            if (group_name == "") {
-                alert_msg += "请输入团名称\n";
-            }
-  
-            if (group_kp == "") {
-                alert_msg += "请指定团KP\n";
-            }
-
-            if (len(group_name)>30){
-                alert_msg += "团名称过长，请限制在30以内\n";
-            }
-
-            if (grouptype="需要密码" && group_password==""){
-                alert_msg += "您选择了使用密码但您未设置密码\n";
-            }
-
-            if(len(group_password)>30){
-                alert_msg += "密码过长，请限制在30以内\n";
-            }
-
-            if(len(group_tag)<5){
-                alert_msg += "团描述至少5个字符\n";
-            }
-
-            if(len(group_tag)>200){
-                alert_msg += "团描述至多200个字符\n";
-            }
-
-            if (group_headimgSize > 5000000) {
-                alert_msg += "头像文件大小需小于5MB";
-                fileInput.value = "";
-            }
-
-            if (group_headimgType != "image/jpeg" && fileType != "image/png") {
-                alert_msg += "头像文件只允许png或jpg格式";
-                fileInput.value = "";
-            }
-
-            if(alert_msg){
-                alert(alert_msg);
-                event.preventDefault();
-                return false;
-            }
-            return true;
-            }
-    </script>
 
     <script>
         var windowHeight = $(window).height()

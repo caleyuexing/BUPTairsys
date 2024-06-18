@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'Users',
     'Aircons',
+    'Info',
 ]
 
 ASGI_APPLICATION = "myproject.asgi.application"  

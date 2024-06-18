@@ -57,8 +57,6 @@ def register(request):
                     return HttpResponse(json.dumps({'success': False, 'error': '此身份证已注册','errorid':3}), content_type="application/json")
             else:
                 return HttpResponse(json.dumps({'success': False, 'error': '此号码已被注册','errorid':4}), content_type="application/json")
-        else:
-            return HttpResponse(json.dumps({'success': False, 'error': '用户名已存在','errorid':5}), content_type="application/json")
         
 @csrf_exempt
 def login(request):

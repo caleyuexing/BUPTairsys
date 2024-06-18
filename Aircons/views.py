@@ -9,8 +9,12 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.files.storage import FileSystemStorage
 import os
 import csv
+from django.utils import timezone
 from django.conf import settings
 from Users.models import Users
+
+# 设置默认的查询时间间隔(s)
+DEFAULT_SETTING_TIME_INTERVAL = 10
 
 # Create your views here.
 def airconlist(request):
@@ -88,7 +92,7 @@ def creatOrder(request):
             if userInfo.user_state == '2' or userInfo.user_state == '0':
                 return render(request, 'creatOrder.html', {'userInfo':userInfo})
             else:
-                messages.error(request, '您没有权限访问该页面')
+                return HttpResponse('<script>alert("您没有权限访问该页面");setTimeout(function(){history.go(-1);}, 1);</script>')
 
 
     if request.method == 'POST':
@@ -100,7 +104,7 @@ def creatOrder(request):
         if idcard == '' or name == '':
             return HttpResponse('<script>alert("身份证号和用户名不能为空");setTimeout(function(){history.go(-1);}, 1);</script>')
         
-        # 创建 Aircon_name 作为唯一标识，可以是楼层和房间号的组合
+        # 创建 Aircon_name 作为唯一标识
         aircon_name = f"{room}"
 
         # 检查身份证号是否存在
@@ -134,4 +138,65 @@ def creatOrder(request):
 
         # 重定向到某个页面，比如房间列表页面
         return HttpResponse('<script>alert("创建成功");setTimeout(function(){history.go(-1);}, 1);</script>')
+
+def changesetting(request, Aircon_name):
+    if request.method == 'GET':
+        ret = request.COOKIES.get('ticket')
+        if not Users.objects.filter(u_ticket=ret).exists() or not ret:
+            return render(request, 'register.html')
+        else:
+            userInfo = Users.objects.get(u_ticket=ret)
+            airconInfo = Group.objects.get(Aircon_name=Aircon_name)
+            processInfo = Users_possess.objects.get(Aircon_name=Aircon_name)
+            if userInfo.user_state == '1':
+                isUserProcess = Users_possess.objects.filter(idcard=userInfo.idcard,Aircon_name=Aircon_name).exists()
+                if isUserProcess:
+                    return render(request, 'changesetting.html', {'userInfo':userInfo, 'airconInfo':airconInfo, 'processInfo':processInfo})
+                else:
+                    return HttpResponse('<script>alert("你不是该房间的客户");setTimeout(function(){history.go(-1);}, 1);</script>')
+            elif(userInfo.user_state == '4'):
+                return HttpResponse('<script>alert("您没有访问的权限");setTimeout(function(){history.go(-1);}, 1);</script>')
+            else:
+                return render(request, 'changesetting.html', {'userInfo':userInfo, 'airconInfo':airconInfo, 'processInfo':processInfo})
     
+    if request.method == 'POST':
+        #获取Group的pre_setting_date
+        pre_setting_date = Group.objects.get(Aircon_name=Aircon_name).pre_setting_date
+        if pre_setting_date:
+            current_time = timezone.now()
+            interval_time=(current_time - pre_setting_date).seconds
+            if (current_time - pre_setting_date).seconds < DEFAULT_SETTING_TIME_INTERVAL:
+                return HttpResponse('<script>alert("修改过于频繁，请' + 
+                                    str(DEFAULT_SETTING_TIME_INTERVAL-interval_time) +
+                                    's后再试");setTimeout(function(){history.go(-1);}, 1);</script>')
+        New_Aircon_setting_model = request.POST.get('modeButton')
+        New_Aircon_setting_wind = request.POST.get('speedButton')
+        New_Aircon_setting_temp = request.POST.get('temperatureButton')
+        Aircon_switch = request.POST.get('powerButton')
+
+        print(New_Aircon_setting_model, New_Aircon_setting_wind, New_Aircon_setting_temp, Aircon_switch)
+
+        if New_Aircon_setting_model == '制冷':
+            New_Aircon_setting_model = 0
+        else:
+            New_Aircon_setting_model = 1
+
+        if New_Aircon_setting_wind == '低风':
+            New_Aircon_setting_wind = 1
+        elif New_Aircon_setting_wind == '中风':
+            New_Aircon_setting_wind = 2
+        elif New_Aircon_setting_wind == '高风':
+            New_Aircon_setting_wind = 3
+
+        if Aircon_switch == '关机':
+            New_Aircon_setting_wind = 0            
+
+        # 更新 Group 表中的数据
+        Group.objects.filter(Aircon_name=Aircon_name).update(
+            Aircon_setting_model=New_Aircon_setting_model,
+            Aircon_setting_wind=New_Aircon_setting_wind,
+            Aircon_setting_temp=New_Aircon_setting_temp,
+            pre_setting_date=timezone.now()
+        )
+
+        return HttpResponse('<script>alert("修改成功");setTimeout(function(){history.go(-1);}, 1);</script>')

@@ -1,0 +1,344 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>CaleyRun</title>
+    <link rel="stylesheet" href="../static/css/public.css">
+    <link rel="stylesheet" href="../static/css/index.css">
+    <link rel="stylesheet" href="../static/css/caley.css">
+    <link rel="stylesheet" href="../static/css/bootstrap.css">
+    <style>
+    .hahamiddle {
+        width: 80%;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .caley-bg-img {
+        background-image: url('../static/img/creatgroup-bg2.png');
+        background-size: cover;
+        background-position: center;
+        width: 100%;
+        min-height: 69vh;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="video-bg">
+        <img src="../static/img/creatgroup-bg1.png" alt="" class="bg-img">
+        <div class="banner1-info new">
+            <div class="wording">
+				<br>
+                <div class="move-logo"></div>
+                <div class="move-title">更改房间空调设置</div>
+                <div class="move-title">{{airconInfo.Aircon_name}}</div>
+                <div class="move-desc">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="header">
+        <div class="h-inner">
+            <h1 class="logo">
+                <a href="{% url 'index' %}"></a>
+                <!-- <img src="./img/logo.png" alt="TIM"> -->
+            </h1>
+            <div class="nav">
+                <ul class="nav-ul">
+                    <li class="nav-item"><a href="{% url 'index' %}">首页</a></li>
+                    <li class="nav-item"><a href="{% url 'airconlist' %}" class="active">浏览/管理空调</a></li>
+                    <li class="nav-item"><a href="./support.html">个人中心</a></li>
+                </ul>
+            </div>
+            <div class="user-info-container">
+                <img class="headimg_caley" src="{% static userInfo.headimg %}">
+                <div class="user-data">
+                    <h2>{{ userInfo.u_name }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="caley-bg-img">
+        <form class="form-horizontal" enctype="multipart/form-data" method="POST">
+        {% csrf_token %}
+            <div class="form-group">
+               &nbsp;
+            </div>
+            {% if userInfo.user_state ==  "3" or userInfo.user_state == "1" or userInfo.user_state == "0"%}
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">模式</label>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <div class="btn-group">
+                    <button type="button" class="btn btn-info" id="modeButton">制冷</button>
+                    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" class="mode-option">制冷</a></li>
+                        <li><a href="#" class="mode-option">制热</a></li>
+                    </ul>
+                </div>
+                <input type="hidden" name="modeButton" id="modeInput" value="制冷">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                当前设定模式：
+                {% if airconInfo.Aircon_setting_model == "1" %}
+                    制热
+                {% else %}
+                    制冷
+                {% endif %}
+            </div>
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">风速</label>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <div class="btn-group">
+                    <button type="button" class="btn btn-info" id="speedButton">中风</button>
+                    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" class="speed-option">低风</a></li>
+                        <li><a href="#" class="speed-option">中风</a></li>
+                        <li><a href="#" class="speed-option">高风</a></li>
+                    </ul>
+                </div>
+                <input type="hidden" name="speedButton" id="speedInput" value="中风">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                当前设定风速：
+                {% if airconInfo.Aircon_setting_wind == "0" %}
+                    已关机
+                {% elif airconInfo.Aircon_setting_wind == "1" %}
+                    低风
+                {% elif airconInfo.Aircon_setting_wind == "2" %}
+                    中风
+                {% elif airconInfo.Aircon_setting_wind == "3" %}
+                    高风
+                {% endif %}
+            </div>
+            <div class="form-group">
+            </div>
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">温度</label>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <div class="btn-group">
+                    <button type="button" class="btn btn-info" id="temperatureButton">25</button>
+                    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu"  id="temperatureDropdown">
+
+                    </ul>
+                </div>
+                <input type="hidden" name="temperatureButton" id="temperatureInput" value="25">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                当前设定温度：
+                {{ airconInfo.Aircon_setting_temp }}
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                当前房间温度：
+                {{ airconInfo.room_current_temp }}
+            </div>
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">开关机</label>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <div class="btn-group">
+                    <button type="button" class="btn btn-danger" id="powerButton">开机</button>
+                    <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu"  id="powerButtonDropdown">
+                        <li><a href="#" class="power-option">开机</a></li>
+                        <li><a href="#" class="power-option">关机</a></li>
+                    </ul>
+                </div>
+                <input type="hidden" name="powerButton" id="powerInput" value="开机">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                当前电源状态：
+                {% if airconInfo.Aircon_setting_wind == "0" %}
+                    关机
+                {% else %}
+                    开机
+                {% endif %}
+            </div>
+            <div class="form-group">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <div class="col-sm-offset-2 col-sm-10">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button type="submit" class="btn btn-success" onclick="return validateForm();">提交更改</button>
+                    <a class="btn btn-default" href="{% url 'airconlist' %}" role="button">返回浏览房间</a>
+                </div>
+            </div>
+            {% endif %}
+            {% if userInfo.user_state ==  "2" or userInfo.user_state == "1" or userInfo.user_state == "0"%}
+            <div class="form-group">
+               &nbsp;
+            </div>
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">开房时间：</label>
+                <label for="inputEmail3" class="col-sm-1 control-label" style="display: inline-block;">{{ processInfo.opentime }}</label>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">已经使用分钟数：</label>
+                <label for="inputEmail3" class="col-sm-1 control-label">246</label>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">共计（元）</label>
+                <label for="inputEmail3" class="col-sm-1 control-label">46</label>
+            </div>
+            <div class="form-group">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <div class="col-sm-offset-2 col-sm-10">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a class="btn btn-default" href="{% url 'airconlist' %}" role="button">查看详单</a>
+                    {% if userInfo.user_state ==  "2" or userInfo.user_state ==  "0"%}
+                        <a class="btn btn-default" href="{% url 'airconlist' %}" role="button">结账</a>
+                        <a class="btn btn-default" href="{% url 'airconlist' %}" role="button">返回浏览房间</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+        </form>
+    </div>
+
+
+    <script src="../static/js/jquery.min.js"></script>
+    <script src="../static/js/bj-report-tryjs.min.js"></script>
+    <script src="../static/js/swiper-3.4.2.jquery.min.js"></script>
+    <script src="../static/js/bootstrap.js"></script>
+
+    <script>
+        var windowHeight = $(window).height()
+            // 页面滚动触发播放事件
+        function pageScroll() {
+            var documentScrollTop = $(document).scrollTop()
+
+            if (documentScrollTop > 10) {
+                $('.header').addClass('scrollTop')
+            } else {
+                $('.header').removeClass('scrollTop')
+            }
+        }
+        $(document).scroll(pageScroll)
+        initVideoPosition()
+
+        function initVideoPosition() {
+            var w = 2560,
+                h = 997,
+                ml = 1298,
+                mb = 126,
+                mw = 180,
+                mh = 319,
+                pl = 1519,
+                pb = 264,
+                pw = 626,
+                ph = 501,
+                nw = (document.body.clientWidth).toFixed(9),
+                nh = (nw * h / w).toFixed(9),
+                mlp = (ml / w).toFixed(9),
+                mbp = (mb / h).toFixed(9),
+                mwp = (mw / w).toFixed(9),
+                mhp = (mh / h).toFixed(9),
+                mlnpx = nw * mlp,
+                mbnpx = nh * mbp,
+                mwnpx = nw * mwp,
+                mhnpx = nh * mhp,
+
+
+                plp = (pl / w).toFixed(9),
+                pbp = (pb / h).toFixed(9),
+                pwp = (pw / w).toFixed(9),
+                php = (ph / h).toFixed(9),
+                plnpx = nw * plp,
+                pbnpx = nh * pbp,
+                pwnpx = nw * pwp,
+                phnpx = nh * php
+            $('.video-mob').css({
+                bottom: mbnpx + 'px',
+                left: mlnpx + 'px',
+                width: mwnpx + 'px',
+                height: mhnpx + 'px'
+            })
+            $('.video-pc').css({
+                bottom: pbnpx + 'px',
+                left: plnpx + 'px',
+                width: pwnpx + 'px',
+                height: phnpx + 'px'
+            })
+
+        }
+        $('.wording').addClass('show')
+        window.onresize = function() {
+            initVideoPosition()
+        }
+        document.onmouseenter = function() {
+            return false;
+        }
+        document.onmousemove = function() {
+            return false;
+        }
+        document.oncontextmenu = function() {
+            return false;
+        }
+    </script>
+
+        <script>
+        $(document).ready(function() {
+            var coolingTemps = [25, 24, 23, 22, 21, 20, 19, 18];
+            var heatingTemps = [25, 26, 27, 28, 29, 30];
+            var selectedMode = '制冷';
+
+            function updateTemperatureOptions() {
+                var temps = selectedMode === '制冷' ? coolingTemps : heatingTemps;
+                var tempDropdown = $('#temperatureDropdown');
+                tempDropdown.empty();
+                temps.forEach(function(temp) {
+                    tempDropdown.append('<li><a href="#" class="temp-option">' + temp + '</a></li>');
+                });
+                $('#temperatureButton').text(temps[0]);
+            }
+
+            $(document).on('click', '.mode-option', function() {
+                selectedMode = $(this).text();
+                $('#modeButton').text(selectedMode);
+                $('#modeInput').val(selectedMode);
+                updateTemperatureOptions();
+            });
+
+            $(document).on('click', '.temp-option', function() {
+                var selectedTemp = $(this).text();
+                $('#temperatureButton').text(selectedTemp);
+                $('#temperatureInput').val(selectedTemp);
+            });
+
+            $(document).on('click', '.speed-option', function() {
+                var selectedSpeed = $(this).text();
+                $('#speedButton').text(selectedSpeed);
+                $('#speedInput').val(selectedSpeed);
+            });
+            
+            $(document).on('click', '.power-option', function() {
+                var selectedMode = $(this).text();
+                $('#powerButton').text(selectedMode);
+                $('#powerInput').val(selectedMode);
+                updateTemperatureOptions();
+            });
+
+            updateTemperatureOptions();
+        });
+    </script>
+    
+
+</body>

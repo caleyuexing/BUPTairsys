@@ -30,6 +30,7 @@ class Users(models.Model):
 class Users_possess(models.Model):
     idcard = models.CharField(max_length=255,default='null')
     Aircon_name = models.CharField(max_length=255)
+    opentime = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         db_table = 'Users_possess'

@@ -21,6 +21,7 @@ class Group(models.Model):
     #风速：0关闭，1低风，2中风，3高风
     room_current_temp = models.CharField(max_length=5,default='30')
     room_img = models.CharField(max_length=255, default='img/groupimg/default.png')
+    pre_setting_date = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         db_table = 'Aircon_info'

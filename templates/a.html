@@ -1,0 +1,127 @@
+<div class="caley-bg-img">
+    <form class="form-horizontal" enctype="multipart/form-data" method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            &nbsp;
+        </div>
+        {% if userInfo.user_state == "3" or userInfo.user_state == "1" or userInfo.user_state == "0" %}
+        <div class="form-group">
+            <label for="inputEmail3" class="col-sm-2 control-label">模式</label>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <div class="btn-group">
+                <button type="button" class="btn btn-info" id="modeButton">制冷</button>
+                <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="caret"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="#" class="mode-option" data-value="制冷">制冷</a></li>
+                    <li><a href="#" class="mode-option" data-value="制热">制热</a></li>
+                </ul>
+            </div>
+            <input type="hidden" name="modeButton" id="modeInput" value="制冷">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            当前设定模式：
+            {% if airconInfo.Aircon_setting_model == "1" %}
+                制热
+            {% else %}
+                制冷
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="inputEmail3" class="col-sm-2 control-label">风速</label>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <div class="btn-group">
+                <button type="button" class="btn btn-info" id="speedButton">中风</button>
+                <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="caret"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="#" class="speed-option" data-value="低风">低风</a></li>
+                    <li><a href="#" class="speed-option" data-value="中风">中风</a></li>
+                    <li><a href="#" class="speed-option" data-value="高风">高风</a></li>
+                </ul>
+            </div>
+            <input type="hidden" name="speedButton" id="speedInput" value="中风">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            当前设定风速：
+            {% if airconInfo.Aircon_setting_wind == "0" %}
+                已关机
+            {% elif airconInfo.Aircon_setting_wind == "1" %}
+                低风
+            {% elif airconInfo.Aircon_setting_wind == "2" %}
+                中风
+            {% elif airconInfo.Aircon_setting_wind == "3" %}
+                高风
+            {% endif %}
+        </div>
+        <div class="form-group">
+        </div>
+        <div class="form-group">
+            <label for="inputEmail3" class="col-sm-2 control-label">温度</label>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <div class="btn-group">
+                <button type="button" class="btn btn-info" id="temperatureButton">25</button>
+                <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="caret"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu">
+                    {% for temp in 16..30 %}
+                    <li><a href="#" class="temperature-option" data-value="{{ temp }}">{{ temp }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            当前设定温度：
+            {{ airconInfo.Aircon_setting_temp }} °C
+        </div>
+        <div class="form-group">
+            &nbsp;
+        </div>
+        {% endif %}
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default">提交</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // 处理模式按钮
+        document.querySelectorAll(".mode-option").forEach(function(element) {
+            element.addEventListener("click", function(event) {
+                event.preventDefault();
+                var value = this.getAttribute("data-value");
+                document.getElementById("modeButton").textContent = value;
+                document.getElementById("modeInput").value = value;
+            });
+        });
+
+        // 处理风速按钮
+        document.querySelectorAll(".speed-option").forEach(function(element) {
+            element.addEventListener("click", function(event) {
+                event.preventDefault();
+                var value = this.getAttribute("data-value");
+                document.getElementById("speedButton").textContent = value;
+                document.getElementById("speedInput").value = value;
+            });
+        });
+
+        // 处理温度按钮
+        document.querySelectorAll(".temperature-option").forEach(function(element) {
+            element.addEventListener("click", function(event) {
+                event.preventDefault();
+                var value = this.getAttribute("data-value");
+                document.getElementById("temperatureButton").textContent = value;
+                document.getElementById("temperatureInput").value = value;
+            });
+        });
+    });
+</script>
