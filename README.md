@@ -7,9 +7,9 @@
     后面会添加Requirements.txt
     
 # 使用说明
-  pip install -r requirements.txt
-  python manage.py runserver
-  随后在127.0.0.1:8000可进行操作
+    pip install -r requirements.txt
+    python manage.py runserver
+    随后在127.0.0.1:8000可进行操作
 
 
     
