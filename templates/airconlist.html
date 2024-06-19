@@ -36,7 +36,7 @@
                         </div><!-- /input-group -->
                     </form>
                 </div>
-                {% if userInfo.user_state ==  "2"%}
+                {% if userInfo.user_state ==  "2" or userInfo.user_state ==  "0"%}
                 <div class="hahamiddle">
                     <div class="move-desc">
                         <a href="{% url 'creatOrder' %}">

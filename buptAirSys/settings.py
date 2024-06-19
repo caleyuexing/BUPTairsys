@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_q',
     'Users',
     'Aircons',
     'Info',
@@ -83,7 +84,7 @@ WSGI_APPLICATION = 'buptAirSys.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": "BuptAirSys",
+        "NAME": "BuptAirSys2",
         "USER": "AirSys",
         "PASSWORD": "AirSys233Run!",
         "HOST": "127.0.0.1",
@@ -135,3 +136,16 @@ STATICFILES_DIRS=(
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+Q_CLUSTER = {
+    'name': 'DjangoQ',
+    'workers': 4,
+    'recycle': 500,
+    'timeout': 300,
+    'ack_failures': True,
+    'retry': 500,
+    'max_attempts': 5,
+    'queue_limit': 50,
+    'bulk': 10,
+    'orm': 'default'
+}

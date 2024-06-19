@@ -1,20 +1,20 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,get_object_or_404
+from buptAirSys.settings import STATICFILES_DIRS
 from Users.models import Users,Users_possess
 from .models import Group
 from django.http import HttpResponse
-from django.db.models import Q,Subquery, OuterRef
-from django.shortcuts import get_object_or_404
-from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.core.files.storage import FileSystemStorage
 import os
 import csv
 from django.utils import timezone
 from django.conf import settings
 from Users.models import Users
+from datetime import datetime,timedelta
 
 # 设置默认的查询时间间隔(s)
 DEFAULT_SETTING_TIME_INTERVAL = 10
+MAX_SERVICE_OBJECTS = 3
+is_Update_Running = False
 
 # Create your views here.
 def airconlist(request):
@@ -124,11 +124,32 @@ def creatOrder(request):
         # 获取默认温度
         room_current_temp = get_default_temperature(aircon_name)
 
+        # 创建详单csv文件
+        current_time = datetime.now()
+        current_time_str = current_time.strftime('%Y%m%d%H%M%S')
+        filename = f"{aircon_name}_{user.idcard}_{current_time_str}.csv"
+        fieldnames = ['统计时间', '所用电量', '金额']
+        save_dir = os.path.join(STATICFILES_DIRS[0], 'groupdat', aircon_name)
+        # 确保目录存在
+        if not os.path.exists(save_dir):
+            os.makedirs(save_dir)
+        filepath = os.path.join(save_dir, filename)
+        with open(filepath, mode='w', newline='', encoding='utf-8') as file:
+            writer = csv.DictWriter(file, fieldnames=fieldnames)
+            
+            # 写入表头
+            writer.writeheader()
+
         # 创建新的 Group 实例
-        Group.objects.create(
+        group = Group.objects.create(
             Aircon_name=aircon_name,
             room_current_temp=room_current_temp
         )
+
+        group_id = group.id
+        
+        from django_q.tasks import schedule
+        schedule('Aircons.tasks.dispatch_service',group_id,schedule_type='O')
 
         # 创建新的 Users_possess 实例
         Users_possess.objects.create(
@@ -148,16 +169,22 @@ def changesetting(request, Aircon_name):
             userInfo = Users.objects.get(u_ticket=ret)
             airconInfo = Group.objects.get(Aircon_name=Aircon_name)
             processInfo = Users_possess.objects.get(Aircon_name=Aircon_name)
+            creaded_time = airconInfo.CreadedTime  # 访问模型实例的字段
+            if timezone.is_naive(creaded_time):
+                creaded_time = timezone.make_aware(creaded_time)
+
+            current_time = timezone.now()  # 获取当前时间
+            use_min = int((current_time - creaded_time).total_seconds() / 60)
             if userInfo.user_state == '1':
                 isUserProcess = Users_possess.objects.filter(idcard=userInfo.idcard,Aircon_name=Aircon_name).exists()
                 if isUserProcess:
-                    return render(request, 'changesetting.html', {'userInfo':userInfo, 'airconInfo':airconInfo, 'processInfo':processInfo})
+                    return render(request, 'changesetting.html', {'userInfo':userInfo, 'airconInfo':airconInfo, 'processInfo':processInfo, 'use_min': use_min})
                 else:
                     return HttpResponse('<script>alert("你不是该房间的客户");setTimeout(function(){history.go(-1);}, 1);</script>')
             elif(userInfo.user_state == '4'):
                 return HttpResponse('<script>alert("您没有访问的权限");setTimeout(function(){history.go(-1);}, 1);</script>')
             else:
-                return render(request, 'changesetting.html', {'userInfo':userInfo, 'airconInfo':airconInfo, 'processInfo':processInfo})
+                return render(request, 'changesetting.html', {'userInfo':userInfo, 'airconInfo':airconInfo, 'processInfo':processInfo, 'use_min': use_min})
     
     if request.method == 'POST':
         #获取Group的pre_setting_date
@@ -173,8 +200,6 @@ def changesetting(request, Aircon_name):
         New_Aircon_setting_wind = request.POST.get('speedButton')
         New_Aircon_setting_temp = request.POST.get('temperatureButton')
         Aircon_switch = request.POST.get('powerButton')
-
-        print(New_Aircon_setting_model, New_Aircon_setting_wind, New_Aircon_setting_temp, Aircon_switch)
 
         if New_Aircon_setting_model == '制冷':
             New_Aircon_setting_model = 0
@@ -198,5 +223,48 @@ def changesetting(request, Aircon_name):
             Aircon_setting_temp=New_Aircon_setting_temp,
             pre_setting_date=timezone.now()
         )
+        group = Group.objects.get(Aircon_name=Aircon_name)
+
+        group_id = group.id
+
+        from django_q.tasks import schedule
+        schedule('Aircons.tasks.dispatch_service',group_id,schedule_type='O')
 
         return HttpResponse('<script>alert("修改成功");setTimeout(function(){history.go(-1);}, 1);</script>')
+
+def stopOrder(request, Aircon_name):
+    if request.method == 'GET':
+        ret = request.COOKIES.get('ticket')
+        if not ret or not Users.objects.filter(u_ticket=ret).exists():
+            return render(request, 'register.html')
+        else:
+            userInfo = Users.objects.get(u_ticket=ret)
+            airconInfo = get_object_or_404(Group, Aircon_name=Aircon_name)
+            processInfo = get_object_or_404(Users_possess, Aircon_name=Aircon_name)
+            
+            if userInfo.user_state not in ['0', '2']:
+                return HttpResponse('<script>alert("您没有访问的权限，退房请联系前台");setTimeout(function(){history.go(-1);}, 1);</script>')
+            else:
+                creaded_time = airconInfo.CreadedTime  # 访问模型实例的字段
+                if timezone.is_naive(creaded_time):
+                    creaded_time = timezone.make_aware(creaded_time)
+
+                current_time = timezone.now()  # 获取当前时间
+                use_min = int((current_time - creaded_time).total_seconds() / 60)
+                
+                return render(request, 'stopOrder.html', {
+                    'userInfo': userInfo,
+                    'airconInfo': airconInfo,
+                    'processInfo': processInfo,
+                    'time': current_time,
+                    'use_min': use_min,
+                })
+            
+    elif request.method == 'POST':
+        #删除group和对应user_process
+        Group.objects.filter(Aircon_name=Aircon_name).delete()
+        Users_possess.objects.filter(Aircon_name=Aircon_name).delete()
+        
+        #alert退房成功后返回
+        return HttpResponse('<script>alert("退房成功");window.location.href = "/";</script>'
+)

@@ -1,0 +1,211 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>CaleyRun</title>
+    <link rel="stylesheet" href="../static/css/public.css">
+    <link rel="stylesheet" href="../static/css/index.css">
+    <link rel="stylesheet" href="../static/css/caley.css">
+    <link rel="stylesheet" href="../static/css/bootstrap.css">
+    <style>
+    .hahamiddle {
+        width: 80%;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .caley-bg-img {
+        background-image: url('../static/img/creatgroup-bg2.png');
+        background-size: cover;
+        background-position: center;
+        width: 100%;
+        min-height: 69vh;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="video-bg">
+        <img src="../static/img/creatgroup-bg1.png" alt="" class="bg-img">
+        <div class="banner1-info new">
+            <div class="wording">
+				<br>
+                <div class="move-logo"></div>
+                <div class="move-title">退房</div>
+                <div class="move-desc">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="header">
+        <div class="h-inner">
+            <h1 class="logo">
+                <a href="{% url 'index' %}"></a>
+                <!-- <img src="./img/logo.png" alt="TIM"> -->
+            </h1>
+            <div class="nav">
+                <ul class="nav-ul">
+                    <li class="nav-item"><a href="{% url 'index' %}">首页</a></li>
+                    <li class="nav-item"><a href="{% url 'airconlist' %}" class="active">浏览/管理空调</a></li>
+                    <li class="nav-item"><a href="./support.html">个人中心</a></li>
+                </ul>
+            </div>
+            <div class="login-register">
+                <a href="{% url 'register' %}">登录/注册</a>
+            </div>
+        </div>
+    </div>
+    <div class="caley-bg-img">
+        <form class="form-horizontal" enctype="multipart/form-data" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">房间号：</label>
+                <label for="aircon_name" class="col-sm-1 control-label">{{airconInfo.Aircon_name}}</label>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">开房时间：</label>
+                <label for="inputEmail3" class="col-sm-1 control-label">{{airconInfo.CreadedTime}}</label>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">退房时间：</label>
+                <label for="inputEmail3" class="col-sm-1 control-label">{{time}}</label>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">空调已经使用分钟数：</label>
+                <label for="inputEmail3" class="col-sm-1 control-label">{{use_min}}</label>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">空调费（元）</label>
+                <label for="inputEmail3" class="col-sm-1 control-label">46</label>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">房间费（元）</label>
+                <label for="inputEmail3" class="col-sm-1 control-label">240</label>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">共计（元）</label>
+                <label for="inputEmail3" class="col-sm-1 control-label">286</label>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-success" >支付</button>
+                    <a class="btn btn-default" href="" role="button">查看详单</a>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+    <script src="../static/js/jquery.min.js"></script>
+    <script src="../static/js/bj-report-tryjs.min.js"></script>
+    <script src="../static/js/swiper-3.4.2.jquery.min.js"></script>
+    <script src="../static/js/bootstrap.js"></script>
+
+
+    <script>
+        var windowHeight = $(window).height()
+            // 页面滚动触发播放事件
+        function pageScroll() {
+            var documentScrollTop = $(document).scrollTop()
+
+            if (documentScrollTop > 10) {
+                $('.header').addClass('scrollTop')
+            } else {
+                $('.header').removeClass('scrollTop')
+            }
+        }
+        $(document).scroll(pageScroll)
+        initVideoPosition()
+
+        function initVideoPosition() {
+            var w = 2560,
+                h = 997,
+                ml = 1298,
+                mb = 126,
+                mw = 180,
+                mh = 319,
+                pl = 1519,
+                pb = 264,
+                pw = 626,
+                ph = 501,
+                nw = (document.body.clientWidth).toFixed(9),
+                nh = (nw * h / w).toFixed(9),
+                mlp = (ml / w).toFixed(9),
+                mbp = (mb / h).toFixed(9),
+                mwp = (mw / w).toFixed(9),
+                mhp = (mh / h).toFixed(9),
+                mlnpx = nw * mlp,
+                mbnpx = nh * mbp,
+                mwnpx = nw * mwp,
+                mhnpx = nh * mhp,
+
+
+                plp = (pl / w).toFixed(9),
+                pbp = (pb / h).toFixed(9),
+                pwp = (pw / w).toFixed(9),
+                php = (ph / h).toFixed(9),
+                plnpx = nw * plp,
+                pbnpx = nh * pbp,
+                pwnpx = nw * pwp,
+                phnpx = nh * php
+            $('.video-mob').css({
+                bottom: mbnpx + 'px',
+                left: mlnpx + 'px',
+                width: mwnpx + 'px',
+                height: mhnpx + 'px'
+            })
+            $('.video-pc').css({
+                bottom: pbnpx + 'px',
+                left: plnpx + 'px',
+                width: pwnpx + 'px',
+                height: phnpx + 'px'
+            })
+
+        }
+        $('.wording').addClass('show')
+        window.onresize = function() {
+            initVideoPosition()
+        }
+        document.onmouseenter = function() {
+            return false;
+        }
+        document.onmousemove = function() {
+            return false;
+        }
+        document.oncontextmenu = function() {
+            return false;
+        }
+    </script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const floorSelect = document.getElementById('floorSelect');
+        const roomSelect = document.getElementById('roomSelect');
+
+        floorSelect.addEventListener('change', function() {
+            const floor = this.value;
+            updateRoomOptions(floor);
+        });
+
+        function updateRoomOptions(floor) {
+            // 清空当前的房间号选项
+            roomSelect.innerHTML = '';
+
+            // 生成新的房间号选项
+            for (let i = 1; i <= 10; i++) {
+                const roomNumber = `${floor}${i.toString().padStart(2, '0')}`;
+                const option = document.createElement('option');
+                option.value = roomNumber;
+                option.textContent = roomNumber;
+                roomSelect.appendChild(option);
+            }
+        }
+
+        // 初始化房间号选项
+        updateRoomOptions(floorSelect.value);
+    });
+</script>
+
+</body>
