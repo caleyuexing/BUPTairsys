@@ -7,8 +7,12 @@
     后面会添加Requirements.txt
     
 # 使用说明
+    先去安装redis
+    然后进入项目根目录
     pip install -r requirements.txt
+    redis-server
     python manage.py runserver
+    python manage.py qcluster
     随后在127.0.0.1:8000可进行操作
 
 
