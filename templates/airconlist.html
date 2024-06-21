@@ -80,6 +80,18 @@
     {% block content %}
     {% if context.results %}
     <div class="row">
+        <div class="col-sm-6 col-md-3">
+            <div class="thumbnail">
+                <div class="caption">
+                    <h3>总控</h3>
+                    <p>状态：开机</p>
+                    <p>处理队列：{{surviced_num}}/{{max_num}}</p>
+                    <p>等待队列：{{unsurviced_num}}</p>
+                    <p>总开机数：{{total_aicons_num}}</p>
+                    <p><a href="{% url 'changeCenter' %}" class="btn btn-primary" role="button">管理</a></p>
+                </div>
+            </div>
+        </div>
       {% for result in context.results %}
         <div class="col-sm-6 col-md-3">
           <div class="thumbnail">

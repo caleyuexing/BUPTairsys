@@ -24,6 +24,7 @@
         min-height: 69vh;
     }
     </style>
+    
 </head>
 
 <body>
@@ -33,7 +34,13 @@
             <div class="wording">
 				<br>
                 <div class="move-logo"></div>
-                <div class="move-title">退房</div>
+                <div class="move-title">{{airconInfo.Aircon_name}}详单</div>
+                {% if userInfo.user_state ==  "2" or userInfo.user_state ==  "0"%}
+                        <a class="btn btn-success" href="{% url 'stopOrder' airconInfo.Aircon_name %}" role="button">结账</a>
+                {% endif %}
+                        <a class="btn btn-warning" href="{% url 'changesetting' airconInfo.Aircon_name %}" role="button">返回房间设置</a>
+                        <a class="btn btn-warning" href="{% url 'airconlist' %}" role="button">返回浏览房间</a>
+
                 <div class="move-desc">
                 </div>
             </div>
@@ -61,43 +68,29 @@
         </div>
     </div>
     <div class="caley-bg-img">
-        <form class="form-horizontal" enctype="multipart/form-data" method="POST">
-            {% csrf_token %}
-            <div class="form-group">
-                <label for="inputEmail3" class="col-sm-2 control-label">房间号：</label>
-                <label for="aircon_name" class="col-sm-1 control-label">{{airconInfo.Aircon_name}}</label>
-            </div>
-            <div class="form-group">
-                <label for="inputEmail3" class="col-sm-2 control-label">开房时间：</label>
-                <label for="inputEmail3" class="col-sm-1 control-label">{{airconInfo.CreadedTime}}</label>
-            </div>
-            <div class="form-group">
-                <label for="inputEmail3" class="col-sm-2 control-label">退房时间：</label>
-                <label for="inputEmail3" class="col-sm-1 control-label">{{time}}</label>
-            </div>
-            <div class="form-group">
-                <label for="inputEmail3" class="col-sm-2 control-label">空调已经使用分钟数：</label>
-                <label for="inputEmail3" class="col-sm-1 control-label">{{use_min}}</label>
-            </div>
-            <div class="form-group">
-                <label for="inputEmail3" class="col-sm-2 control-label">空调费（元）</label>
-                <label for="inputEmail3" class="col-sm-1 control-label">{{total_amount}}</label>
-            </div>
-            <div class="form-group">
-                <label for="inputEmail3" class="col-sm-2 control-label">房间费（元）</label>
-                <label for="inputEmail3" class="col-sm-1 control-label">{{total_cost}}</label>
-            </div>
-            <div class="form-group">
-                <label for="inputEmail3" class="col-sm-2 control-label">共计（元）</label>
-                <label for="inputEmail3" class="col-sm-1 control-label">{{real_total_cost}}</label>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-                    <button type="submit" class="btn btn-success" >支付</button>
-                    <a class="btn btn-default" href="{% url 'billInfo' airconInfo.Aircon_name %}" role="button">查看详单</a>
-                </div>
-            </div>
-        </form>
+        <div class="container">
+        <table class="table table-bordered status-table">
+            <thead>
+                <tr>
+                    <th>使用时间</th>
+                    <th>金额</th>
+                    <th>电量</th>
+                    <th>风速</th>
+                </tr>
+            </thead>
+            <tbody id="activeRequests">
+                {% for usage in usages %}
+                <tr>
+                    <td>{{ usage.timestamp }}</td>
+                    <td>{{ usage.usage }}</td>
+                    <td>{{ usage.cost }}</td>
+                    <td>{{ usage.wind_speed }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
     </div>
 
 
@@ -105,7 +98,6 @@
     <script src="../static/js/bj-report-tryjs.min.js"></script>
     <script src="../static/js/swiper-3.4.2.jquery.min.js"></script>
     <script src="../static/js/bootstrap.js"></script>
-
 
     <script>
         var windowHeight = $(window).height()
@@ -182,33 +174,5 @@
         }
     </script>
 
-    <script>
-    document.addEventListener('DOMContentLoaded', (event) => {
-        const floorSelect = document.getElementById('floorSelect');
-        const roomSelect = document.getElementById('roomSelect');
-
-        floorSelect.addEventListener('change', function() {
-            const floor = this.value;
-            updateRoomOptions(floor);
-        });
-
-        function updateRoomOptions(floor) {
-            // 清空当前的房间号选项
-            roomSelect.innerHTML = '';
-
-            // 生成新的房间号选项
-            for (let i = 1; i <= 10; i++) {
-                const roomNumber = `${floor}${i.toString().padStart(2, '0')}`;
-                const option = document.createElement('option');
-                option.value = roomNumber;
-                option.textContent = roomNumber;
-                roomSelect.appendChild(option);
-            }
-        }
-
-        // 初始化房间号选项
-        updateRoomOptions(floorSelect.value);
-    });
-</script>
 
 </body>

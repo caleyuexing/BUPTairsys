@@ -17,7 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from Users.views import index,register,login
-from Aircons.views import airconlist,creatOrder,changesetting,stopOrder
+from Aircons.views import airconlist,creatOrder,changesetting,stopOrder,changeCenter
+from Info.views import billInfo
 from django.views.generic.base import RedirectView
 
 urlpatterns = [
@@ -27,7 +28,9 @@ urlpatterns = [
     path('airconlist/',airconlist,name='airconlist'),
     path('login/',login,name='login'),
     path('creatOrder/',creatOrder,name='creatOrder'),
+    path('changeCenter/',changeCenter,name='changeCenter'),
     path('changesetting/<int:Aircon_name>', changesetting, name='changesetting'),
     path('stopOrder/<int:Aircon_name>', stopOrder, name='stopOrder'),
+    path('billInfo/<int:Aircon_name>', billInfo, name='billInfo'),
     path('favicon.ico', RedirectView.as_view(url='/static/img/favicon.ico', permanent=True)),
 ]

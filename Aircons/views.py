@@ -10,11 +10,21 @@ from django.utils import timezone
 from django.conf import settings
 from Users.models import Users
 from datetime import datetime,timedelta
+from django_q.models import Schedule
 
 # 设置默认的查询时间间隔(s)
 DEFAULT_SETTING_TIME_INTERVAL = 10
 MAX_SERVICE_OBJECTS = 3
 is_Update_Running = False
+DAILY_COST = 120
+
+def calculate_total_amount(file_path):
+    total_amount = 0.0
+    with open(file_path, mode='r', encoding='utf-8') as file:
+        reader = csv.DictReader(file)
+        for row in reader:
+            total_amount += float(row['金额'])
+    return total_amount
 
 # Create your views here.
 def airconlist(request):
@@ -52,7 +62,10 @@ def airconlist(request):
             results = results.order_by('id')
 
         # 分页
-        paginator = Paginator(results, 6)  # 每页显示 6 条数据
+        if user_state == '1':
+            paginator = Paginator(results, 8)  # 每页显示 8 条数据
+        else:
+            paginator = Paginator(results, 7)  # 每页显示 7 条数据
         page = request.GET.get('page')
         try:
             results = paginator.page(page)
@@ -67,8 +80,21 @@ def airconlist(request):
             'sortby': sortby,
         }
 
+        # Group的总数
+        total_aicons_num = Group.objects.all().count()
+        # Group中is_service_running为True的数量
+        surviced_num = Group.objects.filter(is_serviced=True).count()
+        unsurviced_num = total_aicons_num - surviced_num
+
         userInfo = Users.objects.get(u_ticket=ret)
-        return render(request, 'airconlist.html', {'context': context, 'userInfo': userInfo})
+        return render(request, 'airconlist.html', {
+            'context': context, 
+            'userInfo': userInfo,
+            'unsurviced_num': unsurviced_num,
+            'surviced_num': surviced_num,
+            'total_aicons_num': total_aicons_num,
+            'max_num': MAX_SERVICE_OBJECTS,
+        })
 
 def get_default_temperature(aircon_name):
 
@@ -149,7 +175,12 @@ def creatOrder(request):
         group_id = group.id
         
         from django_q.tasks import schedule
-        schedule('Aircons.tasks.dispatch_service',group_id,schedule_type='O')
+        schedule(
+            'Aircons.tasks.dispatch_service',
+            group_id,
+            schedule_type='O',
+            name=f'dispatch_service_for_{group.Aircon_name}',
+        )
 
         # 创建新的 Users_possess 实例
         Users_possess.objects.create(
@@ -175,16 +206,33 @@ def changesetting(request, Aircon_name):
 
             current_time = timezone.now()  # 获取当前时间
             use_min = int((current_time - creaded_time).total_seconds() / 60)
+            create_time = timezone.localtime(airconInfo.CreadedTime)
+            create_time_str = create_time.strftime('%Y%m%d%H%M%S')
+            filename = f"{airconInfo.Aircon_name}_{processInfo.idcard}_{create_time_str}.csv"
+            file_path = os.path.join(STATICFILES_DIRS[0], 'groupdat', airconInfo.Aircon_name, filename)
+            total_amount = calculate_total_amount(file_path)
             if userInfo.user_state == '1':
                 isUserProcess = Users_possess.objects.filter(idcard=userInfo.idcard,Aircon_name=Aircon_name).exists()
                 if isUserProcess:
-                    return render(request, 'changesetting.html', {'userInfo':userInfo, 'airconInfo':airconInfo, 'processInfo':processInfo, 'use_min': use_min})
+                    return render(request, 'changesetting.html', {
+                        'userInfo':userInfo, 
+                        'airconInfo':airconInfo, 
+                        'processInfo':processInfo, 
+                        'use_min': use_min,
+                        'amount': total_amount,
+                    })
                 else:
                     return HttpResponse('<script>alert("你不是该房间的客户");setTimeout(function(){history.go(-1);}, 1);</script>')
             elif(userInfo.user_state == '4'):
                 return HttpResponse('<script>alert("您没有访问的权限");setTimeout(function(){history.go(-1);}, 1);</script>')
             else:
-                return render(request, 'changesetting.html', {'userInfo':userInfo, 'airconInfo':airconInfo, 'processInfo':processInfo, 'use_min': use_min})
+                return render(request, 'changesetting.html', {
+                    'userInfo':userInfo, 
+                    'airconInfo':airconInfo, 
+                    'processInfo':processInfo, 
+                    'use_min': use_min,
+                    'amount': total_amount,
+                })
     
     if request.method == 'POST':
         #获取Group的pre_setting_date
@@ -221,14 +269,24 @@ def changesetting(request, Aircon_name):
             Aircon_setting_model=New_Aircon_setting_model,
             Aircon_setting_wind=New_Aircon_setting_wind,
             Aircon_setting_temp=New_Aircon_setting_temp,
+            is_serviced=False,
             pre_setting_date=timezone.now()
         )
         group = Group.objects.get(Aircon_name=Aircon_name)
 
         group_id = group.id
 
+        task_name = f'dispatch_service_for_{group.Aircon_name}'
+        cancel_task(task_name)
+
         from django_q.tasks import schedule
-        schedule('Aircons.tasks.dispatch_service',group_id,schedule_type='O')
+        schedule(
+            'Aircons.tasks.dispatch_service',
+            group_id,
+            schedule_type='O',
+            name=f'dispatch_service_for_{group.Aircon_name}',
+            next_run=timezone.now() + timezone.timedelta(seconds=60),
+        )
 
         return HttpResponse('<script>alert("修改成功");setTimeout(function(){history.go(-1);}, 1);</script>')
 
@@ -239,8 +297,8 @@ def stopOrder(request, Aircon_name):
             return render(request, 'register.html')
         else:
             userInfo = Users.objects.get(u_ticket=ret)
-            airconInfo = get_object_or_404(Group, Aircon_name=Aircon_name)
-            processInfo = get_object_or_404(Users_possess, Aircon_name=Aircon_name)
+            airconInfo = Group.objects.get(Aircon_name=Aircon_name)
+            processInfo = Users_possess.objects.get(Aircon_name=Aircon_name)
             
             if userInfo.user_state not in ['0', '2']:
                 return HttpResponse('<script>alert("您没有访问的权限，退房请联系前台");setTimeout(function(){history.go(-1);}, 1);</script>')
@@ -251,6 +309,14 @@ def stopOrder(request, Aircon_name):
 
                 current_time = timezone.now()  # 获取当前时间
                 use_min = int((current_time - creaded_time).total_seconds() / 60)
+                elapsed_days = (current_time - creaded_time).days + 1
+                total_cost = elapsed_days * DAILY_COST
+
+                create_time = timezone.localtime(airconInfo.CreadedTime)
+                create_time_str = create_time.strftime('%Y%m%d%H%M%S')
+                filename = f"{airconInfo.Aircon_name}_{processInfo.idcard}_{create_time_str}.csv"
+                file_path = os.path.join(STATICFILES_DIRS[0], 'groupdat', airconInfo.Aircon_name, filename)
+                total_amount = calculate_total_amount(file_path)
                 
                 return render(request, 'stopOrder.html', {
                     'userInfo': userInfo,
@@ -258,13 +324,49 @@ def stopOrder(request, Aircon_name):
                     'processInfo': processInfo,
                     'time': current_time,
                     'use_min': use_min,
+                    'total_amount': total_amount,
+                    'total_cost': total_cost,
+                    'real_total_cost':total_amount + total_cost,
                 })
             
     elif request.method == 'POST':
+        group = Group.objects.get(Aircon_name=Aircon_name)
+        task_name = f'dispatch_service_for_{group.Aircon_name}'
+        cancel_task(task_name)
+        group.save()
         #删除group和对应user_process
         Group.objects.filter(Aircon_name=Aircon_name).delete()
         Users_possess.objects.filter(Aircon_name=Aircon_name).delete()
+        task_name = f'dispatch_service_for_{group.Aircon_name}'
+        cancel_task(task_name)
         
         #alert退房成功后返回
         return HttpResponse('<script>alert("退房成功");window.location.href = "/";</script>'
 )
+    
+def cancel_task(task_name):
+    try:
+        # 查找调度任务
+        task = Schedule.objects.get(name=task_name)
+        # 删除调度任务
+        task.delete()
+    except Schedule.DoesNotExist:
+        pass
+
+def changeCenter(request):
+    if request.method == 'GET':
+        ret = request.COOKIES.get('ticket')
+        if not ret or not Users.objects.filter(u_ticket=ret).exists():
+            return render(request, 'register.html')
+        else:
+            userInfo = Users.objects.get(u_ticket=ret)
+            if userInfo.user_state not in ['0', '3']:
+                return HttpResponse('<script>alert("您没有访问的权限，退房请联系前台");setTimeout(function(){history.go(-1);}, 1);</script>')
+            else:
+                serviced_groups = Group.objects.filter(is_serviced=True)
+                unserviced_groups = Group.objects.filter(is_serviced=False)
+                return render(request, 'changeCenter.html', {
+                    'userInfo': userInfo,
+                    'serviced_groups': serviced_groups,
+                    'unserviced_groups': unserviced_groups,
+                })

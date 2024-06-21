@@ -24,6 +24,7 @@
         min-height: 69vh;
     }
     </style>
+    
 </head>
 
 <body>
@@ -33,7 +34,11 @@
             <div class="wording">
 				<br>
                 <div class="move-logo"></div>
-                <div class="move-title">退房</div>
+                <div class="move-title">空调总机</div>
+                <div class="power-button">
+                    <button class="btn btn-danger" id="powerButton">关机</button>
+                    <a class="btn btn-default" href="{% url 'airconlist' %}" role="button">返回浏览房间</a>
+                </div>
                 <div class="move-desc">
                 </div>
             </div>
@@ -61,43 +66,57 @@
         </div>
     </div>
     <div class="caley-bg-img">
-        <form class="form-horizontal" enctype="multipart/form-data" method="POST">
-            {% csrf_token %}
-            <div class="form-group">
-                <label for="inputEmail3" class="col-sm-2 control-label">房间号：</label>
-                <label for="aircon_name" class="col-sm-1 control-label">{{airconInfo.Aircon_name}}</label>
-            </div>
-            <div class="form-group">
-                <label for="inputEmail3" class="col-sm-2 control-label">开房时间：</label>
-                <label for="inputEmail3" class="col-sm-1 control-label">{{airconInfo.CreadedTime}}</label>
-            </div>
-            <div class="form-group">
-                <label for="inputEmail3" class="col-sm-2 control-label">退房时间：</label>
-                <label for="inputEmail3" class="col-sm-1 control-label">{{time}}</label>
-            </div>
-            <div class="form-group">
-                <label for="inputEmail3" class="col-sm-2 control-label">空调已经使用分钟数：</label>
-                <label for="inputEmail3" class="col-sm-1 control-label">{{use_min}}</label>
-            </div>
-            <div class="form-group">
-                <label for="inputEmail3" class="col-sm-2 control-label">空调费（元）</label>
-                <label for="inputEmail3" class="col-sm-1 control-label">{{total_amount}}</label>
-            </div>
-            <div class="form-group">
-                <label for="inputEmail3" class="col-sm-2 control-label">房间费（元）</label>
-                <label for="inputEmail3" class="col-sm-1 control-label">{{total_cost}}</label>
-            </div>
-            <div class="form-group">
-                <label for="inputEmail3" class="col-sm-2 control-label">共计（元）</label>
-                <label for="inputEmail3" class="col-sm-1 control-label">{{real_total_cost}}</label>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-                    <button type="submit" class="btn btn-success" >支付</button>
-                    <a class="btn btn-default" href="{% url 'billInfo' airconInfo.Aircon_name %}" role="button">查看详单</a>
-                </div>
-            </div>
-        </form>
+        <div class="container">
+        <h2>正在进行的请求</h2>
+        <table class="table table-bordered status-table">
+            <thead>
+                <tr>
+                    <th>房间号</th>
+                    <th>房间温度</th>
+                    <th>预设温度</th>
+                    <th>预设风速</th>
+                </tr>
+            </thead>
+            <tbody id="activeRequests">
+                {% for serviced_group in serviced_groups %}
+                <tr>
+                    <td>{{ serviced_group.Aircon_name }}</td>
+                    <td>{{ serviced_group.room_current_temp }}</td>
+                    <td>{{ serviced_group.Aircon_setting_temp }}</td>
+                    <td>{{ serviced_group.Aircon_setting_wind }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h2>正在等待的请求</h2>
+        <table class="table table-bordered status-table">
+            <thead>
+                <tr>
+                    <th>房间号</th>
+                    <th>房间温度</th>
+                    <th>预设温度</th>
+                    <th>预设风速</th>
+                    <th>已等待时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody id="waitingRequests">
+                {% for unserviced_group in unserviced_groups %}
+                <tr>
+                    <td>{{ unserviced_group.Aircon_name }}</td>
+                    <td>{{ unserviced_group.room_current_temp }}</td>
+                    <td>{{ unserviced_group.Aircon_setting_temp }}</td>
+                    <td>{{ unserviced_group.Aircon_setting_wind }}</td>
+                    <td>{{ unserviced_group.wait_time }}s</td>
+                    <td>
+                        <button class="btn btn-info btn-top">置顶</button>
+                    <td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
     </div>
 
 
@@ -180,35 +199,6 @@
         document.oncontextmenu = function() {
             return false;
         }
-    </script>
-
-    <script>
-    document.addEventListener('DOMContentLoaded', (event) => {
-        const floorSelect = document.getElementById('floorSelect');
-        const roomSelect = document.getElementById('roomSelect');
-
-        floorSelect.addEventListener('change', function() {
-            const floor = this.value;
-            updateRoomOptions(floor);
-        });
-
-        function updateRoomOptions(floor) {
-            // 清空当前的房间号选项
-            roomSelect.innerHTML = '';
-
-            // 生成新的房间号选项
-            for (let i = 1; i <= 10; i++) {
-                const roomNumber = `${floor}${i.toString().padStart(2, '0')}`;
-                const option = document.createElement('option');
-                option.value = roomNumber;
-                option.textContent = roomNumber;
-                roomSelect.appendChild(option);
-            }
-        }
-
-        // 初始化房间号选项
-        updateRoomOptions(floorSelect.value);
-    });
-</script>
+    </script>   
 
 </body>
