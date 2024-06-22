@@ -4,10 +4,11 @@
 # 环境依赖
     python 版本 3.10.8
     django 版本 4.2.2
-    后面会添加Requirements.txt
+    Requirements.txt不可靠（没建虚拟环境，把我的所有环境都写进去了）
     
 # 使用说明
-    先去安装redis
+    先去安装redis，mysql
+    settings.py中配置数据库配置到你的数据库
     然后进入项目根目录
     pip install -r requirements.txt
     redis-server
